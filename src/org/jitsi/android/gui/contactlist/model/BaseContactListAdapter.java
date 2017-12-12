@@ -392,13 +392,13 @@ public abstract class BaseContactListAdapter
         contactViewHolder.displayName
             .setText(renderer.getDisplayName(child));
         //mychange here it gets the name of the users on the screen example Adminstartor, test11, test12, test8 it already in arraylist just skip that
-        logger.info("mychange in baseContactListAdapter is name "+renderer.getDisplayName(child));
+        logger.info("mychange in baseContactListAdapter is display name "+renderer.getDisplayName(child));
         logger.info("mychange in baseContactListAdapter is address "+renderer.getDefaultAddress(child));
         if(!contactsaddress.contains(renderer.getDefaultAddress(child)))
         contactsaddress.add(renderer.getDefaultAddress(child));
         if(!contactsdisplayname.contains(renderer.getDisplayName(child)));
-        contactsdisplayname.add(renderer.getDisplayName(child));
-        logger.info("mychange in baseContactListAdapter array name is "+contactsdisplayname);
+       // contactsdisplayname.add(renderer.getDisplayName(child));
+        logger.info("mychange in baseContactListAdapter array display name size is" + contactsdisplayname.size()+ " elemeants are "+contactsdisplayname.toString());
         logger.info("mychange in baseContactListAdapter array address is "+contactsaddress.toString());
 
 

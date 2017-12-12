@@ -182,14 +182,14 @@ public class ChatSession
     }*/
 
 
-    //mychange method to convert image to base64string
+    //mychange method to convert image to base64string and send it to user
     //mychange method to convert image to base64string
     public static String convertimage() {
         String imageDataString = null;
         try {
             File imagefile = new File(
                     Environment.getExternalStorageDirectory(),
-                    "test.png");
+                    "test.jpg");
 
 			 // Reading a Image file from file system
 
@@ -203,19 +203,19 @@ public class ChatSession
 
 			 //* Converting a Base64 String into Image byte array
 
-            byte[] imageByteArray = decodeImage(imageDataString);
+           // byte[] imageByteArray = decodeImage(imageDataString);
 
 			 //* Write a image byte array into file system
 
-            FileOutputStream imageOutFile = new FileOutputStream("/Users/jeeva/Pictures/wallpapers/water-drop-after-convert.jpg");
-            imageOutFile.write(imageByteArray);
-            imageInFile.close();
-            imageOutFile.close();
-            System.out.println("Image Successfully Manipulated!");
+           //FileOutputStream imageOutFile = new FileOutputStream("/Users/jeeva/Pictures/wallpapers/water-drop-after-convert.jpg");
+           //imageOutFile.write(imageByteArray);
+            //imageInFile.close();
+            //imageOutFile.close();
+            logger.info("Image Successfully Manipulated!");
         } catch (FileNotFoundException e) {
-            System.out.println("Image not found" + e);
+            logger.info("Image not found" + e);
         } catch (IOException ioe) {
-            System.out.println("Exception while reading the Image " + ioe);
+            logger.info("Exception while reading the Image " + ioe);
         }
         return imageDataString;
     }
@@ -342,7 +342,7 @@ public class ChatSession
 
 
                 //mychange here image is encoded
-                msg = imOpSet.createMessage(convertimage());
+                //msg = imOpSet.createMessage(convertimage());
                 for(int i =0;i<MetaContactRenderer.contactsmetacontact.size();i++) {
                     currentChatTransport1 = MetaContactRenderer.contactsmetacontact.get(i).getDefaultContact();
                     imOpSet.sendInstantMessage(currentChatTransport1, ContactResource.BASE_RESOURCE, msg);

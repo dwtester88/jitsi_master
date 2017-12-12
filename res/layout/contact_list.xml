@@ -4,12 +4,35 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white">
+    <ImageView
+            android:src="@color/chat_background"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/imageView2"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/broadcastbutton"
-            android:text="send"
+            android:layout_margin="5dp"
+            android:id="@+id/broadcastbtn"
+            android:text="picture"
+
             />
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/videobtn"
+            android:layout_margin="5dp"
+            android:text="video"
+    />
+
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dooropenbtn"
+            android:layout_margin="5dp"
+            android:text="door"
+    />
 
     <ExpandableListView
             android:id="@+id/contactListView"
@@ -19,6 +42,7 @@
             android:dividerHeight="0dip"
             android:divider="@null"
             android:groupIndicator="@null"
+            android:visibility="invisible"
             android:cacheColorHint="@color/white"/>
 
 

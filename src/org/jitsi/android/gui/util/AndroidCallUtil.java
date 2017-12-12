@@ -62,6 +62,8 @@ public class AndroidCallUtil
                                             View callButtonView,
                                             String contact)
     {
+        logger.info("createAndroidcall context " +context.toString() +" view is "+ callButtonView.toString() +" contact is "+ contact);
+
         if (AccountUtils.getRegisteredProviders().size() > 1)
             showCallViaMenu(context, callButtonView, contact);
         else

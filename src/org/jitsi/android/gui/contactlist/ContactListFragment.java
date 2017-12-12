@@ -20,6 +20,7 @@ package org.jitsi.android.gui.contactlist;
 import android.annotation.*;
 import android.app.*;
 import android.content.*;
+import android.net.Uri;
 import android.os.*;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
@@ -40,6 +41,8 @@ import org.jitsi.android.gui.contactlist.model.*;
 import org.jitsi.android.gui.util.*;
 import org.jitsi.service.osgi.*;
 import org.jitsi.util.*;
+
+import java.io.File;
 
 /**
  *
@@ -100,6 +103,8 @@ public class ContactListFragment
      */
     private static int scrollTopPosition;
 
+    Uri uri;
+
     /**
      * Creates new instance of <tt>ContactListFragment</tt>.
      */
@@ -110,7 +115,8 @@ public class ContactListFragment
     }
 
     //mychange
-    Button callbutton,broadcastbutton;
+    Button callbutton,broadcastbutton,videobutton,doorbutton;
+    ImageView image;
 
     /**
      * {@inheritDoc}
@@ -139,16 +145,33 @@ public class ContactListFragment
         registerForContextMenu(contactListView);
 
         //mychange
-        broadcastbutton = (Button) content.findViewById(R.id.broadcastbutton);
-        broadcastbutton.setText("Broadcast");
+        image = (ImageView) content.findViewById(R.id.imageView2);
+        broadcastbutton = (Button) content.findViewById(R.id.broadcastbtn);
         broadcastbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                ChatSession.sendMessage("msg");
+                ChatSession.sendMessage("sendpicture");
+            }
+        });
+        videobutton = (Button) content.findViewById(R.id.videobtn);
+        videobutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ChatSession.sendMessage("incomingcall");
+                AndroidCallUtil.createAndroidCall(getActivity(),videobutton,"test1@do-india1");
 
             }
         });
+
+        doorbutton = (Button) content.findViewById(R.id.dooropenbtn);
+        doorbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ChatSession.sendMessage("opendoor");
+            }
+        });
+
 
         /*//mychange
         View content1 = inflater.inflate( R.layout.home_layout,
@@ -164,11 +187,32 @@ public class ContactListFragment
         return content1;*/
 
 
-
-
+        File file =new File(Environment.getExternalStorageDirectory(),"pic.jpg");
+        uri = Uri.fromFile(file);
+        image.setImageURI(uri);
+        image.requestFocus();
+        image.postDelayed(swapImage,200); //to change image
 
         return  content;
     }
+  /* public  void change(){
+      Vibrator v = (Vibrator)
+
+   }*/
+
+
+
+
+    private Runnable swapImage = new Runnable() {
+        @Override
+        public void run() {
+            logger.info("update uri here");
+            image.setImageURI(uri);
+            image.requestFocus();
+
+
+        }
+    };
 
 
 
@@ -756,11 +800,16 @@ public class ContactListFragment
                     @Override
                     public void onClick(View v)
                     {
+
+                        logger.info("Contactlistfragment callbutton activity "+getActivity().toString() +" query is "+query);
+
                         AndroidCallUtil
                             .createAndroidCall(
                                 getActivity(),
                                 callButton,
                                 query);
+
+                        logger.info("Contactlistfragment callbutton activity "+getActivity().toString() +" query is "+query);
                     }
                 });
             }

@@ -24,8 +24,14 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.*;
 
+import android.app.Activity;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Vibrator;
 import android.util.Base64;
+import android.widget.ImageView;
 import android.widget.Toast;
 import net.java.sip.communicator.service.contactlist.*;
 import net.java.sip.communicator.service.protocol.*;
@@ -37,6 +43,7 @@ import net.java.sip.communicator.util.*;
 import org.jitsi.*;
 import org.jitsi.android.*;
 import org.jitsi.android.gui.*;
+import org.jitsi.android.gui.contactlist.ContactListFragment;
 import org.jitsi.android.gui.util.*;
 import org.jitsi.service.configuration.*;
 
@@ -103,6 +110,8 @@ public class ChatMessageImpl
      * corrections. This text is used to display the message on the screen.
      */
     private String cachedOutput = null;
+
+
 
     /**
      * Creates a <tt>ChatMessageImpl</tt> by specifying all parameters of the
@@ -505,7 +514,6 @@ public class ChatMessageImpl
 
      public static ChatMessageImpl getMsgForEvent(final MessageReceivedEvent evt)
     {
-
         final Contact protocolContact = evt.getSourceContact();
         final Message message = evt.getSourceMessage();
         final MetaContact metaContact
@@ -514,15 +522,11 @@ public class ChatMessageImpl
 
         logger.info("mychange ChatMessageImpl received message is " +message.getContent() +" from "+evt.getSourceContact().getAddress());
 
-
         //mychange here after getting the string of image now we have to save the image
         saveimage(message.getContent());
 
         /*ChatSession  chatController = new ChatSession(metaContact);
         chatController.sendMessage(message.getContent());*/
-
-
-
 
         return new ChatMessageImpl(
                 protocolContact.getAddress(),
@@ -539,6 +543,7 @@ public class ChatMessageImpl
 
     //mychange method to convert base64string to image and save as pic.png
     public static void saveimage(String decodeimage) {
+        final File file;
         String imageDataString = null;
         try {
             File imagefile = new File(
@@ -555,14 +560,53 @@ public class ChatMessageImpl
             logger.info("saveimage received message is "+newdecode );
             byte[] imageByteArray = decodeImage(decodeimage);
             //* Write a image byte array into file system
-            File file;
-            file = new File(
-                    Environment.getExternalStorageDirectory(),
-                    "pic.png");
+
+
+                file = new File(Environment.getExternalStorageDirectory(),
+                        "pic.jpg");
+                logger.info("file exist " + file + ",Bitmap= " + "pic");
+
             FileOutputStream imageOutFile = new FileOutputStream(file);
             imageOutFile.write(imageByteArray);
             //imageInFile.close();
             imageOutFile.close();
+
+            //todo update image here
+
+            logger.info("mychange trying to take pictur1e");
+            Activity ctx1 = JitsiApplication.getCurrentActivity();
+            final Context context= ctx1.getApplicationContext();
+            final ImageView imageView = (ImageView) ctx1.findViewById(R.id.imageView2);
+            ctx1.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    Toast.makeText(context,"reload image",Toast.LENGTH_LONG).show();
+
+                    logger.info("mychange trying to take picture2");
+                    imageView.setImageURI(null);
+                    imageView.setImageURI(Uri.fromFile(file));
+                    logger.info("mychange trying to take picture3");
+
+                }
+            });
+
+
+
+
+
+           /* try {
+                Activity activity = JitsiApplication.getCurrentActivity();
+                ImageView imageView = (ImageView) activity.findViewById(R.id.imageView2);
+                imageView.setImageURI(Uri.fromFile(file));
+            }
+            catch (Exception e){
+                logger.info("mychange update image execption "+e.getMessage());
+            }*/
+
+
+
+
             logger.info("Image is Successfully Manipulated!");
         } catch (FileNotFoundException e) {
             logger.info("Image is not found" + e);
@@ -570,6 +614,10 @@ public class ChatMessageImpl
             logger.info("Image is Exception while reading the Image " + ioe);
         }
     }
+
+
+
+
     //mychange
     //
     //* Encodes the byte array into base64 string
