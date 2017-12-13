@@ -151,6 +151,7 @@ public class ContactListFragment
             @Override
             public void onClick(View view) {
 
+                ChatSession.sendMessage("ack");
                 ChatSession.sendMessage("sendpicture");
             }
         });
@@ -158,8 +159,9 @@ public class ContactListFragment
         videobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ChatSession.sendMessage("ack");
                 ChatSession.sendMessage("incomingcall");
-                AndroidCallUtil.createAndroidCall(getActivity(),videobutton,"test1@do-india1");
+                AndroidCallUtil.createAndroidCall(getActivity(),videobutton,ChatSession.door_contact.getAddress());
 
             }
         });
@@ -168,6 +170,7 @@ public class ContactListFragment
         doorbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ChatSession.sendMessage("ack");
                 ChatSession.sendMessage("opendoor");
             }
         });

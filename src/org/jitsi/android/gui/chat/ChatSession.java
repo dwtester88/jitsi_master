@@ -75,7 +75,7 @@ public class ChatSession
     private static Contact currentChatTransport;
 
     // mychange variable is assigned
-    public static Contact currentChatTransport1;
+    public static Contact door_contact;
 
     /**
      * The chat history filter.
@@ -344,11 +344,18 @@ public class ChatSession
                 //mychange here image is encoded
                 //msg = imOpSet.createMessage(convertimage());
                 for(int i =0;i<MetaContactRenderer.contactsmetacontact.size();i++) {
-                    currentChatTransport1 = MetaContactRenderer.contactsmetacontact.get(i).getDefaultContact();
-                    imOpSet.sendInstantMessage(currentChatTransport1, ContactResource.BASE_RESOURCE, msg);
-                    logger.info("mychange chatsession message sent is " + msg.getContent() +
-                            " CurrentChatTransport is destination address " + currentChatTransport1.getAddress() + " contact count is ");
+                    logger.info("door contact is " + MetaContactRenderer.contactsmetacontact.get(i).getDisplayName());
+
+                    if (MetaContactRenderer.contactsmetacontact.get(i).getDisplayName().contains("test1")) {
+                        door_contact = MetaContactRenderer.contactsmetacontact.get(i).getDefaultContact();
+                    }
                 }
+                    imOpSet.sendInstantMessage(door_contact, ContactResource.BASE_RESOURCE, msg);
+                    logger.info("mychange chatsession message sent is " + msg.getContent() +
+                            " CurrentChatTransport is destination address " + door_contact.getAddress() + " contact count is ");
+
+
+
 
 
             }
