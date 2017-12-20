@@ -3,17 +3,30 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+              android:weightSum="10"
     android:background="@color/white">
     <ImageView
             android:src="@color/chat_background"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:layout_margin="5dp"
             android:id="@+id/imageView2"/>
+
+
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:weightSum="3"
+                  android:layout_weight="1"
+                  android:layout_gravity="center"
+                  android:layout_margin="5dp"
+                  android:orientation="horizontal">
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="2dp"
             android:id="@+id/broadcastbtn"
+            android:padding="5dp"
             android:text="picture"
 
             />
@@ -21,7 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/videobtn"
-            android:layout_margin="5dp"
+            android:layout_margin="2dp"
+            android:padding="5dp"
             android:text="video"
     />
 
@@ -30,14 +44,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/dooropenbtn"
-            android:layout_margin="5dp"
+            android:layout_margin="2dp"
+            android:padding="5dp"
             android:text="door"
     />
+    </LinearLayout>
 
     <ExpandableListView
             android:id="@+id/contactListView"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="100dp"
             android:choiceMode="singleChoice"
             android:dividerHeight="0dip"
             android:divider="@null"
@@ -51,7 +68,8 @@
     <RelativeLayout
             android:id="@+id/callSearchLayout"
             android:layout_width="fill_parent"
-            android:layout_height="0dip"
+            android:layout_height="0dp"
+            android:layout_weight="0"
             android:visibility="invisible">
 
 
