@@ -277,8 +277,8 @@ public class AndroidPopup
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(ctx)
                         .setSmallIcon(smallIcon)
-                        .setContentTitle(popupMessage.getMessageTitle())
-                        .setContentText(getMessage())
+                        .setContentTitle("door") //mychange
+                        .setContentText("new picture") //mychange
                         .setAutoCancel(true)// will be cancelled once clciked
                         .setVibrate(new long[]{}) // no vibration
                         .setSound(null); // no sound
@@ -325,7 +325,7 @@ public class AndroidPopup
             // Build inbox style
             NotificationCompat.InboxStyle inboxStyle
                 = new NotificationCompat.InboxStyle();
-            onBuildInboxStyle(inboxStyle);
+           // onBuildInboxStyle(inboxStyle);   //mychange removed summary details of the notification
             builder.setStyle(inboxStyle);
         }
 
@@ -360,7 +360,7 @@ public class AndroidPopup
             if(AndroidNotifications.MESSAGE_GROUP.equals(group))
             {
                 targetIntent
-                    = ChatSessionManager.getChatIntent(metaContact);
+                    = JitsiApplication.getHomeIntent();// mychange from  "= ChatSessionManager.getChatIntent(metaContact);" to mention one
 
                 if(targetIntent == null)
                 {
@@ -378,10 +378,7 @@ public class AndroidPopup
         // Displays popup message details when the notification is clicked
         if(message != null && targetIntent == null)
         {
-            targetIntent = DialogActivity.getDialogIntent(
-                JitsiApplication.getGlobalContext(),
-                message.getMessageTitle(),
-                message.getMessage());
+            targetIntent = JitsiApplication.getHomeIntent(); // mychange from "= DialogActivity.getDialogIntent(JitsiApplication.getGlobalContext(),message.getMessageTitle(),message.getMessage());"
         }
 
         if(targetIntent == null)
@@ -403,7 +400,8 @@ public class AndroidPopup
      * @param inboxStyle the inbox style instance used for building large
      *                   notification view.
      */
-    protected void onBuildInboxStyle(NotificationCompat.InboxStyle inboxStyle)
+    //mychange commented unwanted part in notification
+    /*protected void onBuildInboxStyle(NotificationCompat.InboxStyle inboxStyle)
     {
         inboxStyle.addLine(popupMessage.getMessage());
         // Summary
@@ -416,7 +414,7 @@ public class AndroidPopup
                         pps.getAccountID().getDisplayName());
             }
         }
-    }
+    }*/
 
     /**
      * Cancels the timeout if it exists.

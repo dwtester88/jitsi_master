@@ -106,7 +106,8 @@ public class AndroidMergedPopup
     /**
      * {@inheritDoc}
      */
-    @Override
+    //mychange commented unwanted part in the code for notification
+    /*@Override
     protected void onBuildInboxStyle(NotificationCompat.InboxStyle inboxStyle)
     {
         super.onBuildInboxStyle(inboxStyle);
@@ -115,5 +116,5 @@ public class AndroidMergedPopup
         {
             inboxStyle.addLine(popup.getMessage());
         }
-    }
+    }*/
 }
