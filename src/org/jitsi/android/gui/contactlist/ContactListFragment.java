@@ -159,8 +159,8 @@ public class ContactListFragment
         videobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ChatSession.sendMessage("ack");
-                ChatSession.sendMessage("incomingcall");
+               // ChatSession.sendMessage("ack");
+                //ChatSession.sendMessage("incomingcall");
                 AndroidCallUtil.createAndroidCall(getActivity(),videobutton,ChatSession.door_contact.getAddress());
 
             }

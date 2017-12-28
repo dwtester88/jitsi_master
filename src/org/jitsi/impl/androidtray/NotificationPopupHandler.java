@@ -109,6 +109,12 @@ public class NotificationPopupHandler
         JitsiApplication.getNotificationManager().notify(nId, builder.build());
         newPopup.onPost();
 
+        /*//if you want to cancel the notificationuse below code
+        logger.info("mychange notification id is "+nId+" cancel");
+        NotificationManager notifyManager
+                = JitsiApplication.getNotificationManager();
+        notifyManager.cancel(nId);*/
+
         // caches the notification until clicked or cleared
         notificationMap.put(nId, newPopup);
     }

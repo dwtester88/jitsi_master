@@ -429,7 +429,7 @@ public class VideoHandlerFragment
             return;
         }
 
-        //mychange this enables the video calling function
+        //forinfo this enables the video calling function
         CallManager.enableLocalVideo(call, enable);
     }
 
