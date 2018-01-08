@@ -151,7 +151,7 @@ public class ContactListFragment
             @Override
             public void onClick(View view) {
 
-                ChatSession.sendMessage("ack");
+               // ChatSession.sendMessage("ack");
                 ChatSession.sendMessage("sendpicture");
             }
         });
@@ -170,7 +170,7 @@ public class ContactListFragment
         doorbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ChatSession.sendMessage("ack");
+               // ChatSession.sendMessage("ack");
                 ChatSession.sendMessage("opendoor");
             }
         });
