@@ -21,6 +21,7 @@ import android.app.*;
 import android.content.*;
 import android.content.res.*;
 import android.graphics.*;
+import android.net.Uri;
 import android.support.v4.app.*;
 
 import net.java.sip.communicator.service.contactlist.*;
@@ -276,14 +277,30 @@ public class AndroidPopup
     NotificationCompat.Builder buildNotification()
     {
         Context ctx = JitsiApplication.getGlobalContext();
+
+        logger.info("notification message  is "+getMessage());
+        String msg, uri;
+        if(getMessage().equals("motion")){
+                msg="motion";
+            uri = "android.resource://org.jitsi/" + R.raw.motion;
+        }
+        else if(getMessage().equals("guest")){
+            msg="guest";
+            uri = "android.resource://org.jitsi/" + R.raw.bell;
+        }
+        else{
+            msg="new picture";
+            uri = "android.resource://org.jitsi/" + R.raw.dial;
+        }
+        removeNotification();
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(ctx)
                         .setSmallIcon(smallIcon)
                         .setContentTitle("door") //mychange
-                        .setContentText("new picture") //mychange
+                        .setContentText(msg) //mychange
                         .setAutoCancel(true)// will be cancelled once clciked
                         .setVibrate(new long[]{}) // no vibration
-                        .setSound(null); // no sound
+                        .setSound(Uri.parse(uri)); // no sound
 
         // Big view comes with API11
         if(AndroidUtils.hasAPI(11))
