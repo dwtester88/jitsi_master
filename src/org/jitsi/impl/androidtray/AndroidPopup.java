@@ -144,7 +144,7 @@ public class AndroidPopup
 
         NotificationManager notifyManager
                 = JitsiApplication.getNotificationManager();
-        notifyManager.cancel(id);
+        notifyManager.cancelAll();
     }
 
     /**
