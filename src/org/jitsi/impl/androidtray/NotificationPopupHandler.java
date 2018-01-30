@@ -78,7 +78,7 @@ public class NotificationPopupHandler
             AndroidPopup merge = popup.tryMerge(popupMessage);
             if(merge != null)
             {
-                newPopup = merge;
+              //  newPopup = merge;
                 break;
             }
         }
