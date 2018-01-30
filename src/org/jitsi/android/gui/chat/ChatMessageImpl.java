@@ -28,8 +28,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Vibrator;
 import android.util.Base64;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -43,7 +41,6 @@ import net.java.sip.communicator.util.*;
 import org.jitsi.*;
 import org.jitsi.android.*;
 import org.jitsi.android.gui.*;
-import org.jitsi.android.gui.contactlist.ContactListFragment;
 import org.jitsi.android.gui.util.*;
 import org.jitsi.service.configuration.*;
 
@@ -522,8 +519,16 @@ public class ChatMessageImpl
 
         logger.info("mychange ChatMessageImpl received message is " +message.getContent() +" from "+evt.getSourceContact().getAddress());
 
-        //mychange here after getting the string of image now we have to save the image
-        saveimage(message.getContent());
+            if (message.getContent().equals("guest")) {
+
+            }
+            else if (message.getContent().equals("motion")) {
+
+            }
+            else {
+                //mychange here after getting the string of image now we have to save the image
+                saveimage(message.getContent());
+            }
 
         /*ChatSession  chatController = new ChatSession(metaContact);
         chatController.sendMessage(message.getContent());*/
