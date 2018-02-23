@@ -25,6 +25,7 @@ import javax.microedition.khronos.opengles.*;
 
 import net.java.sip.communicator.util.*;
 
+import org.jitsi.android.JitsiApplication;
 import org.jitsi.android.util.java.awt.*;
 import org.jitsi.service.neomedia.*;
 
@@ -103,6 +104,20 @@ public class JAWTRendererAndroidVideoComponent
                         {
                             JAWTRendererAndroidVideoComponent.this.onDrawFrame(
                                     gl);
+
+                            //mychange here if condition check if it gives white screen error while rendering video it reloads/recreate the current activity.
+                            if (!(gl.glGetError() == 0)) {
+                                logger.info("currenctactivity in jaw ondrawframe ");
+                                JitsiApplication.getCurrentActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        JitsiApplication.getCurrentActivity().recreate();
+                                        //  ImageView hangupView = (ImageView) JitsiApplication.getCurrentActivity().findViewById(R.id.callHangupButton);
+                                        //  Toast.makeText(JitsiApplication.getGlobalContext(),"unable to get video please try again",Toast.LENGTH_LONG).show();
+                                        // hangupView.performClick();
+                                    }
+                                });
+                            }
                         }
 
                         public void onSurfaceChanged(
