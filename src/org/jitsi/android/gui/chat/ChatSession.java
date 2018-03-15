@@ -288,9 +288,18 @@ public class ChatSession
             return;
         }*/
 
-        //mychange
-        ProtocolProviderService pps
-                = MetaContactRenderer.contactsmetacontact.get(1).getDefaultContact().getProtocolProvider();
+        MetaContactRenderer metaContactRenderer = new MetaContactRenderer();
+        logger.info("mychange contactsmetacontact is in chatsession "+metaContactRenderer.contactsmetacontact.size());
+        //logger.info("mychange contactsmetacontact is in chatsession contact "+MetaContactRenderer.contactsmetacontact.get(1).getDefaultContact().toString());
+        ProtocolProviderService pps;
+        try {
+            pps = metaContactRenderer.contactsmetacontact.get(metaContactRenderer.contactsmetacontact.size()-1).getDefaultContact().getProtocolProvider();
+            logger.info("mychange contactsmetacontact is in chatsession pss "+pps.toString());
+
+        }catch (Exception e){
+            logger.info("mychange contactsmetacontact is in chatsession error "+e.getMessage());
+            return;
+        }
 
 
         /* //mychange below code is the original code of above change

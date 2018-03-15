@@ -54,8 +54,8 @@ public abstract class BaseContactListAdapter
     private final ContactListFragment contactListFragment;
 
     //mychange adding arraylist to store the contactlist infomations as name suggest
-    public static ArrayList<String> contactsaddress = new ArrayList<String>();
-    public static ArrayList<String> contactsdisplayname = new ArrayList<String>();
+    //public static ArrayList<String> contactsaddress = new ArrayList<String>();
+    //public static ArrayList<String> contactsdisplayname = new ArrayList<String>();
 
 
     /**
@@ -78,6 +78,7 @@ public abstract class BaseContactListAdapter
     {
         contactListFragment = clFragment;
         contactListView = contactListFragment.getContactListView();
+        MetaContactRenderer.contactsmetacontact.clear();
     }
 
     /**
@@ -391,7 +392,7 @@ public abstract class BaseContactListAdapter
         // Set display name value.
         contactViewHolder.displayName
             .setText(renderer.getDisplayName(child));
-        //mychange here it gets the name of the users on the screen example Adminstartor, test11, test12, test8 it already in arraylist just skip that
+        /*//mychange here it gets the name of the users on the screen example Adminstartor, test11, test12, test8 it already in arraylist just skip that
         logger.info("mychange in baseContactListAdapter is display name "+renderer.getDisplayName(child));
         logger.info("mychange in baseContactListAdapter is address "+renderer.getDefaultAddress(child));
         if(!contactsaddress.contains(renderer.getDefaultAddress(child)))
@@ -399,7 +400,7 @@ public abstract class BaseContactListAdapter
         if(!contactsdisplayname.contains(renderer.getDisplayName(child)));
        // contactsdisplayname.add(renderer.getDisplayName(child));
         logger.info("mychange in baseContactListAdapter array display name size is" + contactsdisplayname.size()+ " elemeants are "+contactsdisplayname.toString());
-        logger.info("mychange in baseContactListAdapter array address is "+contactsaddress.toString());
+        logger.info("mychange in baseContactListAdapter array address is "+contactsaddress.toString());*/
 
 
 

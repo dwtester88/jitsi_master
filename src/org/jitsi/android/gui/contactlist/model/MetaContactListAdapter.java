@@ -367,9 +367,9 @@ public class MetaContactListAdapter
     private void addContact(final MetaContactGroup metaGroup,
                             final MetaContact metaContact)
     {
-        if(!MetaContactRenderer.contactsmetacontact.contains(metaContact))
+        if(!MetaContactRenderer.contactsmetacontact.toString().contains(metaContact.toString()))
             MetaContactRenderer.contactsmetacontact.add(metaContact);
-        logger.info("mychange contactsmetacontact is " +MetaContactRenderer.contactsmetacontact.size());
+        logger.info("mychange contactsmetacontact at addcontact " +MetaContactRenderer.contactsmetacontact.size());
 
         addContactStatusListener(metaContact, this);
 
