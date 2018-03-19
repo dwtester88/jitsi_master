@@ -585,13 +585,17 @@ public class ChatMessageImpl
             ctx1.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    try {
+                        Toast.makeText(context,"reload image",Toast.LENGTH_LONG).show();
 
-                    Toast.makeText(context,"reload image",Toast.LENGTH_LONG).show();
+                        logger.info("mychange trying to take picture2");
+                        imageView.setImageURI(null);
+                        imageView.setImageURI(Uri.fromFile(file));
+                        logger.info("mychange trying to take picture3");
+                    }catch (Exception e){
+                        logger.info("mychange trying to save piture and got error "+e.getMessage());
+                    }
 
-                    logger.info("mychange trying to take picture2");
-                    imageView.setImageURI(null);
-                    imageView.setImageURI(Uri.fromFile(file));
-                    logger.info("mychange trying to take picture3");
 
                 }
             });
