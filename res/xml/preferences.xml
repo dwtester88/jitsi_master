@@ -101,6 +101,13 @@
                 android:summaryOn="@string/service_gui_settings_ALLOW_ALPHA_ON"
                 android:summaryOff="@string/service_gui_settings_ALLOW_ALPHA_OFF"
                 />
+        <EditTextPreference
+                android:title="@string/call_disconnect_title"
+                android:key="@string/pref_key_call_disconnect"
+                android:inputType="number"
+                android:hint="should be less then 60"
+                android:defaultValue="20"
+        />
     </PreferenceCategory>
     <PreferenceCategory
             android:title="@string/service_gui_settings_AUDIO"

@@ -115,6 +115,9 @@ public class SettingsActivity
         = JitsiApplication.getResString(R.string.pref_key_video_max_bandwidth);
     static private final String P_KEY_VIDEO_BITRATE
         = JitsiApplication.getResString(R.string.pref_key_video_bitrate);
+    //call disconnect value (sec) when app is in background
+    static private final String P_key_call_disconnect
+            = JitsiApplication.getResString(R.string.pref_key_call_disconnect);
 
     /**
      * {@inheritDoc}
@@ -140,7 +143,7 @@ public class SettingsActivity
     /**
      * The preferences fragment implements Jitsi settings.
      */
-    public static class SettingsFragment
+    public class SettingsFragment
         extends OSGiPreferenceFragment
         implements SharedPreferences.OnSharedPreferenceChangeListener
     {
@@ -452,6 +455,11 @@ public class SettingsActivity
                     = (EditTextPreference) findPreference(P_KEY_VIDEO_BITRATE);
             bitratePref.setText(Integer.toString(bitrate));
 
+            // Call Disconnect time when app is in background
+            EditTextPreference calldisconntimebckgrnd
+                    = (EditTextPreference) findPreference(P_key_call_disconnect);
+            calldisconntimebckgrnd.setSummary(calldisconntimebckgrnd.getText());
+
             // Summaries mapping
             summaryMapper.includePreference(
                     cameraList,
@@ -475,7 +483,7 @@ public class SettingsActivity
          * @param d resolution as <tt>Dimension</tt>
          * @return resolution string.
          */
-        private static String resToStr(Dimension d)
+        private String resToStr(Dimension d)
         {
             return ((int) d.getWidth()) + "x" + ((int) d.getHeight());
         }
@@ -487,7 +495,7 @@ public class SettingsActivity
          * @return resolution <tt>Dimension</tt> for given string representation
          *         created with method {@link #resToStr(Dimension)}
          */
-        private static Dimension resoultionForStr(String resStr)
+        private Dimension resoultionForStr(String resStr)
         {
             Dimension[] resolutions = MediaRecorderSystem.SUPPORTED_SIZES;
             for (Dimension resolution : resolutions)
@@ -597,6 +605,12 @@ public class SettingsActivity
         public void onSharedPreferenceChanged( SharedPreferences shPreferences,
                                                String            key )
         {
+            //initializing editor to update the (Call Disconnect time when app in background) in sharedpreference
+            SharedPreferences sharedpreferences;
+            SharedPreferences.Editor editor;
+            sharedpreferences  = getSharedPreferences("preference", Context.MODE_PRIVATE);
+            editor = sharedpreferences.edit();
+
             if(key.equals(P_KEY_LOG_CHAT_HISTORY))
             {
                 MessageHistoryService mhs
@@ -805,6 +819,18 @@ public class SettingsActivity
 
                 ((EditTextPreference)findPreference(P_KEY_VIDEO_BITRATE))
                         .setText(bitrate + "");
+            }
+            //update or overwrite value of (Call Disconnect time when app in background) in sharedpreference
+            else if(key.equals(P_key_call_disconnect))
+            {
+                EditTextPreference calldisconntimebckgrnd
+                    = (EditTextPreference) findPreference(P_key_call_disconnect);
+                String seconds = calldisconntimebckgrnd.getText();
+                if(Integer.valueOf(seconds)>60)
+                    seconds = "60";
+                calldisconntimebckgrnd.setSummary(seconds);
+                editor.putString(P_key_call_disconnect, seconds);
+                editor.commit();
             }
         }
     }
