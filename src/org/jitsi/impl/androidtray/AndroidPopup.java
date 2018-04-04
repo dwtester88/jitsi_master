@@ -287,10 +287,17 @@ public class AndroidPopup
         else if(getMessage().equals("guest")){
             msg="guest";
             uri = "android.resource://org.jitsi/" + R.raw.bell;
+
         }
         else{
             msg="new picture";
             uri = "android.resource://org.jitsi/" + R.raw.dial;
+            //launch application if it is not in foreground
+            if(!isJitsiinforeground()){
+                Intent LaunchIntent = ctx.getPackageManager().getLaunchIntentForPackage("org.jitsi");
+                LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ctx.startActivity(LaunchIntent);
+            }
         }
         removeNotification();
         NotificationCompat.Builder builder =
@@ -471,6 +478,19 @@ public class AndroidPopup
                     handler.onTimeout(AndroidPopup.this);
                 }
             }, timeout);
+        }
+    }
+
+    public boolean isJitsiinforeground() {
+        try {
+            if ((JitsiApplication.getCurrentActivity().toString()).contains("jitsi")) {
+                return true;
+            }
+            logger.info("Current activity is " + JitsiApplication.getCurrentActivity());
+            return false;
+        } catch (Exception e) {
+            logger.info("Current activity Exception is " + e.getMessage());
+            return false;
         }
     }
 }
