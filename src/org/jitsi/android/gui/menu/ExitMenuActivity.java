@@ -24,6 +24,8 @@ import org.jitsi.*;
 import org.jitsi.android.*;
 import org.jitsi.service.osgi.*;
 
+import java.io.File;
+
 /**
  * Extends this activity to handle exit options menu item.
  *
@@ -53,6 +55,14 @@ public abstract class ExitMenuActivity
     {
         if(item.getItemId() == R.id.menu_exit)
         {
+            File file;
+            try {
+                file = new File(Environment.getExternalStorageDirectory(),
+                        "pic.jpg");
+                file.delete();
+            }catch (Exception e){
+
+            }
             // Shutdown application
             JitsiApplication.shutdownApplication();
             return true;

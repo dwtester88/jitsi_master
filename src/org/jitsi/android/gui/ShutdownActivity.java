@@ -27,6 +27,8 @@ import org.jitsi.*;
 import org.jitsi.android.gui.util.*;
 import org.jitsi.service.osgi.*;
 
+import java.io.File;
+
 /**
  * Activity displayed when shutdown procedure is in progress.
  *
@@ -72,5 +74,15 @@ public class ShutdownActivity
 
         ((TextView)findViewById(R.id.restoring))
             .setText(R.string.service_gui_SHUTDOWN_IN_PROGRESS);
+
+        File file;
+        try {
+            file = new File(Environment.getExternalStorageDirectory(),
+            "pic.jpg");
+            file.delete();
+        }catch (Exception e){
+
+        }
+
     }
 }
