@@ -141,9 +141,9 @@ public class ActionBarUtil
         if (avatarDrawable == null)
             avatarDrawable = getDefaultAvatarIcon();
 
-        avatarDrawable
+        /*avatarDrawable
             .setDrawableByLayerId(R.id.contactStatusDrawable,
-                AndroidImageUtil.drawableFromBytes(statusIcon));
+                AndroidImageUtil.drawableFromBytes(statusIcon));*/
 
         // setLogo not supported prior API 14
         if(AndroidUtils.hasAPI(14))
