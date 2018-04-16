@@ -28,8 +28,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
+import android.text.Layout;
 import android.util.Base64;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import net.java.sip.communicator.service.contactlist.*;
 import net.java.sip.communicator.service.protocol.*;
@@ -41,6 +45,7 @@ import net.java.sip.communicator.util.*;
 import org.jitsi.*;
 import org.jitsi.android.*;
 import org.jitsi.android.gui.*;
+import org.jitsi.android.gui.contactlist.ContactListFragment;
 import org.jitsi.android.gui.util.*;
 import org.jitsi.service.configuration.*;
 
@@ -520,7 +525,8 @@ public class ChatMessageImpl
         logger.info("mychange ChatMessageImpl received message is " +message.getContent() +" from "+evt.getSourceContact().getAddress());
 
             if (message.getContent().equals("guest")) {
-
+                //show call button
+                showcallbuttons();
             }
             else if (message.getContent().equals("motion")) {
 
@@ -543,6 +549,26 @@ public class ChatMessageImpl
                 message.getContentType(),
                 message.getMessageUID(),
                 evt.getCorrectedMessageUID());
+    }
+
+    private static void showcallbuttons() {
+        Activity ctx2 = JitsiApplication.getCurrentActivity();
+        final LinearLayout calllayout =(LinearLayout) ctx2.findViewById(R.id.calllayout);
+        final LinearLayout checklayout =(LinearLayout) ctx2.findViewById(R.id.checklayout);
+        final ImageView imageView = (ImageView) ctx2.findViewById(R.id.imageView2);
+        ctx2.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                   calllayout.setVisibility(View.VISIBLE);
+                   checklayout.setVisibility(View.INVISIBLE);
+                   imageView.setImageResource(R.drawable.user);
+                }catch (Exception e){
+                    logger.info("mychange trying to save piture and got error "+e.getMessage());
+                }
+            }
+        });
+
     }
 
 
@@ -582,15 +608,18 @@ public class ChatMessageImpl
             Activity ctx1 = JitsiApplication.getCurrentActivity();
             final Context context= ctx1.getApplicationContext();
             final ImageView imageView = (ImageView) ctx1.findViewById(R.id.imageView2);
+            final ImageButton saveimagebutton =(ImageButton) ctx1.findViewById(R.id.savebtn);
+            final ImageButton idlemodebutton = (ImageButton) ctx1.findViewById(R.id.idlemodebtn);
             ctx1.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         Toast.makeText(context,"reload image",Toast.LENGTH_LONG).show();
-
                         logger.info("mychange trying to take picture2");
                         imageView.setImageURI(null);
                         imageView.setImageURI(Uri.fromFile(file));
+                        saveimagebutton.setImageResource(R.drawable.save);
+                        idlemodebutton.setImageResource(R.drawable.home);
                         logger.info("mychange trying to take picture3");
                     }catch (Exception e){
                         logger.info("mychange trying to save piture and got error "+e.getMessage());
