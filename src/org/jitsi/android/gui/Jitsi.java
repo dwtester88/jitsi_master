@@ -21,6 +21,7 @@ import android.app.*;
 import android.content.*;
 import android.os.Bundle; // disambiguation
 
+import android.os.Environment;
 import android.util.Log;
 import net.java.sip.communicator.util.Logger;
 
@@ -32,6 +33,8 @@ import org.jitsi.android.gui.menu.*;
 import org.jitsi.android.gui.util.*;
 import org.jitsi.android.plugin.otr.*;
 import org.osgi.framework.*;
+
+import java.io.File;
 
 /**
  * The main <tt>Activity</tt> for Jitsi application.
@@ -48,6 +51,8 @@ public class Jitsi
      * The logger
      */
     private static final Logger logger = Logger.getLogger(Jitsi.class);
+
+    public static File file;
 
     /**
      * The action that will show contacts.
@@ -98,6 +103,7 @@ public class Jitsi
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        file = new File(Environment.getExternalStorageDirectory(),"pic.jpg");
 
         // Checks if OSGi has been started and if not starts
         // LauncherActivity which will restore this Activity
@@ -268,7 +274,10 @@ public class Jitsi
     protected void onDestroy()
     {
         super.onDestroy();
-
+        if(file.exists()){
+            file.delete();
+        }else{
+        }
         synchronized (this)
         {
             BundleContext bundleContext = getBundlecontext();
