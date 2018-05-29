@@ -21,6 +21,7 @@ import net.java.sip.communicator.service.contactlist.*;
 
 import org.jitsi.*;
 import org.jitsi.android.*;
+import org.jitsi.android.gui.chat.ChatSession;
 import org.jitsi.android.gui.contactlist.*;
 import org.jitsi.android.gui.util.*;
 import org.jitsi.util.Logger;
@@ -62,6 +63,7 @@ public abstract class BaseContactListAdapter
      * The list view.
      */
     private final ExpandableListView contactListView;
+    private ImageView doorbellstatus;
 
     /**
      * Indicates if we're in an extended chat interface where the chat is shown
@@ -78,6 +80,7 @@ public abstract class BaseContactListAdapter
     {
         contactListFragment = clFragment;
         contactListView = contactListFragment.getContactListView();
+        doorbellstatus = contactListFragment.getdoorbellstatus();
         MetaContactRenderer.contactsmetacontact.clear();
     }
 
@@ -222,6 +225,16 @@ public abstract class BaseContactListAdapter
             .getChildAt(
                 getListIndex(groupIndex, contactIndex) - firstIndex);
 
+        try {
+            logger.info("contactrimpl is "+contactImpl.toString());
+            if(contactImpl.toString().contains(JitsiApplication.getGlobalContext().getString(R.string.doorbellcontact))){
+                logger.info("contactrimpl is ifloop "+contactImpl.toString());
+                doorbellstatus.setImageDrawable(
+                        getContactRenderer(groupIndex)
+                                .getStatusImage(contactImpl));
+            }
+        }catch (Exception e){
+        }
         if (contactView != null)
         {
             ImageView statusView
