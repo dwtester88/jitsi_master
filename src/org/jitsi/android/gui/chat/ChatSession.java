@@ -30,6 +30,8 @@ import net.java.sip.communicator.service.msghistory.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.event.*;
 
+import org.jitsi.R;
+import org.jitsi.android.JitsiApplication;
 import org.jitsi.android.gui.*;
 
 import org.jitsi.android.gui.contactlist.model.MetaContactRenderer;
@@ -355,7 +357,7 @@ public class ChatSession
                 for(int i =0;i<MetaContactRenderer.contactsmetacontact.size();i++) {
                     logger.info("door contact is " + MetaContactRenderer.contactsmetacontact.get(i).getDisplayName());
 
-                    if (MetaContactRenderer.contactsmetacontact.get(i).getDisplayName().contains("test1")) {
+                    if (MetaContactRenderer.contactsmetacontact.get(i).getDisplayName().contains(JitsiApplication.getGlobalContext().getString(R.string.doorbellcontact))) {
                         door_contact = MetaContactRenderer.contactsmetacontact.get(i).getDefaultContact();
                     }
                 }
