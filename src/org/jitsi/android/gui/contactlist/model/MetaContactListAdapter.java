@@ -123,10 +123,28 @@ public class MetaContactListAdapter
         addContacts(contactListService.getRoot());
 
         contactListService.addMetaContactListListener(this);
+        try {
+            updateStatus(doorcontact());
+        }catch (Exception e ){
+
+        }
+
 
         //mychange to get more information
         //logger.info("mychange in metacontactlistadapter " +contactListService.getRoot().getGroupName());
         //logger.info("mychange in metacontactlistadapter sourceindex " +contactListService.getSourceIndex());
+    }
+
+    private MetaContact doorcontact() {
+        for(int i =0;i<MetaContactRenderer.contactsmetacontact.size();i++) {
+            logger.info("door contact is " + MetaContactRenderer.contactsmetacontact.get(i).getDisplayName());
+
+            if (MetaContactRenderer.contactsmetacontact.get(i).getDisplayName().contains(JitsiApplication.getGlobalContext().getString(R.string.doorbellcontact))) {
+                MetaContact door_contact = MetaContactRenderer.contactsmetacontact.get(i);
+                return door_contact;
+            }
+        }
+        return null;
     }
 
     /**
