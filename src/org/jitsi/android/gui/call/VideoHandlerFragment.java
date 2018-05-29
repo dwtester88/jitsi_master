@@ -202,7 +202,21 @@ public class VideoHandlerFragment
         AndroidDecoder.renderSurfaceProvider
             = new PreviewSurfaceProvider(
                     (OSGiActivity) activity, remoteVideoContainer, false);
+
+        activity.findViewById(R.id.callHangupButton).postDelayed(endcall,240000);
     }
+    private Runnable endcall = new Runnable() {
+        @Override
+        public void run() {
+            Activity activity = getActivity();
+            try {
+                activity.findViewById(R.id.callHangupButton).performClick();
+            }
+            catch (Exception e){
+                logger.debug("VideoHandlerFragment exception on call end" +e.getMessage());
+            }
+        }
+    };
 
     @Override
     public void onResume()
