@@ -19,6 +19,8 @@ package org.jitsi.android.gui.menu;
 
 import java.util.*;
 
+
+import android.media.MediaPlayer;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.update.*;
 import net.java.sip.communicator.util.*;
@@ -28,6 +30,8 @@ import org.jitsi.*;
 import org.jitsi.android.*;
 import org.jitsi.android.gui.*;
 import org.jitsi.android.gui.account.*;
+import org.jitsi.android.gui.chat.ChatMessageImpl;
+import org.jitsi.android.gui.chat.ChatSession;
 import org.jitsi.android.gui.contactlist.*;
 import org.jitsi.android.gui.settings.*;
 
@@ -45,6 +49,9 @@ import android.view.*;
 public class MainMenuActivity
     extends ExitMenuActivity
 {
+
+    private static final Logger logger
+            = Logger.getLogger(MainMenuActivity.class);
     /**
      * Called when the activity is starting. Initializes the corresponding
      * call interface.
@@ -88,7 +95,10 @@ public class MainMenuActivity
     {
         // Handle item selection
         switch (item.getItemId())
-        {
+        { 
+        case R.id.alram:
+            blowhorn();
+            return true;
         case R.id.search:
             return true;
         case R.id.add_account:
@@ -142,5 +152,12 @@ public class MainMenuActivity
         default:
             return super.onOptionsItemSelected(item);
         }
+    }
+    private void blowhorn() {
+                try {
+                    ChatSession.sendMessage("Alarm");
+                }catch (Exception e){
+                    logger.info("alarm message "+e.getMessage());
+                }
     }
 }
