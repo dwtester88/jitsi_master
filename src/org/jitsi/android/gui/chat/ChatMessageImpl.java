@@ -27,14 +27,12 @@ import java.util.regex.*;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Environment;
 import android.text.Layout;
 import android.util.Base64;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.*;
 import net.java.sip.communicator.service.contactlist.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.event.*;
@@ -530,6 +528,8 @@ public class ChatMessageImpl
             }
             else if (message.getContent().equals("motion")) {
 
+            }else if (message.getContent().equals("ack")) {
+
             }
             else {
                 //mychange here after getting the string of image now we have to save the image
@@ -552,10 +552,12 @@ public class ChatMessageImpl
     }
 
     private static void showcallbuttons() {
-        Activity ctx2 = JitsiApplication.getCurrentActivity();
+
+        final Activity ctx2 = JitsiApplication.getCurrentActivity();
         final LinearLayout calllayout =(LinearLayout) ctx2.findViewById(R.id.calllayout);
         final LinearLayout checklayout =(LinearLayout) ctx2.findViewById(R.id.checklayout);
         final ImageView imageView = (ImageView) ctx2.findViewById(R.id.imageView2);
+        final ProgressBar progressBar1 =(ProgressBar) ctx2.findViewById(R.id.progressBar);
         ctx2.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -563,6 +565,7 @@ public class ChatMessageImpl
                    calllayout.setVisibility(View.VISIBLE);
                    checklayout.setVisibility(View.INVISIBLE);
                    imageView.setImageResource(R.drawable.user);
+                   progressBar1.setVisibility(ctx2.getCurrentFocus().VISIBLE);
                 }catch (Exception e){
                     logger.info("mychange trying to save piture and got error "+e.getMessage());
                 }
@@ -605,16 +608,18 @@ public class ChatMessageImpl
             //todo update image here
 
             logger.info("mychange trying to take pictur1e");
-            Activity ctx1 = JitsiApplication.getCurrentActivity();
+            final Activity ctx1 = JitsiApplication.getCurrentActivity();
             final Context context= ctx1.getApplicationContext();
             final ImageView imageView = (ImageView) ctx1.findViewById(R.id.imageView2);
             final ImageButton saveimagebutton =(ImageButton) ctx1.findViewById(R.id.savebtn);
             final ImageButton idlemodebutton = (ImageButton) ctx1.findViewById(R.id.idlemodebtn);
+            final ProgressBar progressBar = (ProgressBar) ctx1.findViewById(R.id.progressBar);
             ctx1.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        Toast.makeText(context,"reload image",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context,"reload image",Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(ctx1.getCurrentFocus().GONE);
                         logger.info("mychange trying to take picture2");
                         imageView.setImageURI(null);
                         imageView.setImageURI(Uri.fromFile(file));
