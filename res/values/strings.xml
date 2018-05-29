@@ -1310,5 +1310,6 @@
     <string name="pref_key_provisioning_UUID">net.java.sip.communicator.UUID</string>
     <string name="call_disconnect_title">Disconnect Call in (sec)</string>
     <string name="pref_key_call_disconnect">pref.key.call.disconnect</string>
+    <string name="doorbellcontact">test1</string>
 
 </resources>
