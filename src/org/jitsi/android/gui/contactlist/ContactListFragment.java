@@ -33,6 +33,7 @@ import net.java.sip.communicator.service.contactlist.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.util.Logger;
 
+import net.java.sip.communicator.util.call.CallManager;
 import org.jitsi.*;
 import org.jitsi.android.*;
 import org.jitsi.android.gui.*;
@@ -43,6 +44,10 @@ import org.jitsi.service.osgi.*;
 import org.jitsi.util.*;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
@@ -103,7 +108,15 @@ public class ContactListFragment
      */
     private static int scrollTopPosition;
 
-    Uri uri;
+    public static Uri uri;
+    public static Boolean listen_flag=false;
+    public static File file,savefile;
+    public static ImageButton callbutton,broadcastbutton,videobutton,idlemodebutton,saveimagebutton;
+    public static ImageButton makecallbtn,checkmodebtn;
+    public static ImageView image,doorbellstatus;
+    public static View content;
+    public static LinearLayout calllayout,checklayout;
+    public static ProgressBar progressBar;
 
     /**
      * Creates new instance of <tt>ContactListFragment</tt>.
@@ -115,8 +128,7 @@ public class ContactListFragment
     }
 
     //mychange
-    Button callbutton,broadcastbutton,videobutton,doorbutton;
-    ImageView image;
+
 
     /**
      * {@inheritDoc}
@@ -131,10 +143,13 @@ public class ContactListFragment
             return null;
         }
 
-        View content = inflater.inflate( R.layout.contact_list,
+        file = new File(Environment.getExternalStorageDirectory(),"pic.jpg");
+        content = inflater.inflate( R.layout.contact_list,
                                          container,
                                          false);
 
+        doorbellstatus = (ImageView) content.findViewById(R.id.doorbellstatus);
+        progressBar = (ProgressBar) content.findViewById(R.id.progressBar);
         contactListView = (ExpandableListView) content
                 .findViewById(R.id.contactListView);
         contactListView.setSelector(R.drawable.contact_list_selector);
@@ -146,32 +161,135 @@ public class ContactListFragment
 
         //mychange
         image = (ImageView) content.findViewById(R.id.imageView2);
-        broadcastbutton = (Button) content.findViewById(R.id.broadcastbtn);
+        broadcastbutton = (ImageButton) content.findViewById(R.id.broadcastbtn);
         broadcastbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-               // ChatSession.sendMessage("ack");
+                progressBar.setVisibility(view.VISIBLE);
+                ChatSession.sendMessage("ack");
+                if(file.exists()){
+                    file.delete();
+                    checkmode();
+                }else{
+                }
                 ChatSession.sendMessage("sendpicture");
             }
         });
-        videobutton = (Button) content.findViewById(R.id.videobtn);
+        videobutton = (ImageButton) content.findViewById(R.id.videobtn);
         videobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // ChatSession.sendMessage("ack");
-                //ChatSession.sendMessage("incomingcall");
-                AndroidCallUtil.createAndroidCall(getActivity(),videobutton,ChatSession.door_contact.getAddress());
+                listen_flag = true;
+                //ChatSession.sendMessage("");
+                if(file.exists()){
+                    file.delete();
+                }else{
+                }
+                try {
+                    ChatSession.sendMessage("incomingcall");
+                    AndroidCallUtil.createAndroidCall(getActivity(),videobutton,ChatSession.door_contact.getAddress());
+                }
+                catch (Exception e){
+                    Toast.makeText(JitsiApplication.getGlobalContext(),"Error calling end user. Please try again",Toast.LENGTH_LONG).show();
+                    logger.info("Videocall Error: "+e.getMessage());
+                }
 
             }
         });
 
-        doorbutton = (Button) content.findViewById(R.id.dooropenbtn);
-        doorbutton.setOnClickListener(new View.OnClickListener() {
+       /* listenbutton = (ImageButton) content.findViewById(R.id.listenbtn);
+        listenbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // ChatSession.sendMessage("ack");
-                ChatSession.sendMessage("opendoor");
+
+                listen_flag = true;
+                // ChatSession.sendMessage("ack");
+                //ChatSession.sendMessage("incomingcall");
+                *//*try {
+                    mutethecall();
+                }
+                catch (Exception e){
+
+                }*//*
+                try {
+                    ChatSession.sendMessage("incomingcall");
+                    AndroidCallUtil.createAndroidCall(getActivity(),listenbutton,ChatSession.door_contact.getAddress());
+                }
+                catch (Exception e){
+                    Toast.makeText(JitsiApplication.getGlobalContext(),"Error calling end user. Please try again",Toast.LENGTH_LONG).show();
+                    logger.info("Listencall Error: "+e.getMessage());
+                }
+
+            }
+        });*/
+
+        idlemodebutton = (ImageButton) content.findViewById(R.id.idlemodebtn);
+        idlemodebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               //remove image and switch mode to idle mode
+                if(file.exists()){
+                    file.delete();
+                    checkmode();
+                }else{
+                    checkmode();
+                }
+            }
+        });
+
+        saveimagebutton = (ImageButton) content.findViewById(R.id.savebtn);
+        saveimagebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //save the image as last guest in root folder and go to idle mode
+                if(file.exists()){
+                    try {
+                        savefile = new File(Environment.getExternalStorageDirectory(),"lastpic.jpg");
+                        if(!savefile.exists()) {
+                            savefile.createNewFile();
+                        }else {}
+                        file.renameTo(savefile);
+                    }catch (Exception e){
+                        logger.info("Error saving file"+e.getMessage());
+                    }
+
+
+                    checkmode();
+                }else{
+                    checkmode();
+                }
+            }
+        });
+
+        checkmodebtn = (ImageButton) content.findViewById(R.id.checkmode);
+        checkmodebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                hidecallbuttons();
+
+            }
+        });
+
+        makecallbtn = (ImageButton) content.findViewById(R.id.makecall);
+        makecallbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listen_flag = true;
+                //ChatSession.sendMessage("");
+                if(file.exists()){
+                    file.delete();
+                }else{
+                }
+                try {
+                    ChatSession.sendMessage("incomingcall");
+                    AndroidCallUtil.createAndroidCall(getActivity(),videobutton,ChatSession.door_contact.getAddress());
+                }
+                catch (Exception e){
+                    Toast.makeText(JitsiApplication.getGlobalContext(),"Error calling end user. Please try again",Toast.LENGTH_LONG).show();
+                    logger.info("Videocall Error: "+e.getMessage());
+                }
+
             }
         });
 
@@ -190,13 +308,98 @@ public class ContactListFragment
         return content1;*/
 
 
-        File file =new File(Environment.getExternalStorageDirectory(),"pic.jpg");
-        uri = Uri.fromFile(file);
-        image.setImageURI(uri);
-        image.requestFocus();
-        image.postDelayed(swapImage,200); //to change image
+        checkmode();
 
         return  content;
+    }
+
+    private void hidecallbuttons() {
+            Activity ctx2 = JitsiApplication.getCurrentActivity();
+            final LinearLayout calllayout =(LinearLayout) ctx2.findViewById(R.id.calllayout);
+            final LinearLayout checklayout =(LinearLayout) ctx2.findViewById(R.id.checklayout);
+            ctx2.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        calllayout.setVisibility(View.INVISIBLE);
+                        checklayout.setVisibility(View.VISIBLE);
+                    }catch (Exception e){
+                        logger.info("mychange trying to save piture and got error "+e.getMessage());
+                    }
+                }
+            });
+    }
+
+    private static void showcallbuttons() {
+        calllayout =(LinearLayout) content.findViewById(R.id.calllayout);
+        checklayout =(LinearLayout) content.findViewById(R.id.checklayout);
+
+                try {
+                    calllayout.setVisibility(View.VISIBLE);
+                    checklayout.setVisibility(View.INVISIBLE);
+                }catch (Exception e){
+                    logger.info("mychange trying to save piture and got error "+e.getMessage());
+                }
+    }
+
+
+    public View checkmode() {
+
+        logger.info("checkmode started ");
+
+        if(file.exists()) {
+            showcallbuttons();
+            logger.info("call checkmode file exist");
+            uri = Uri.fromFile(file);
+            image.setImageURI(uri);
+            image.requestFocus();
+            image.postDelayed(swapImage, 200); //to change image
+            saveimagebutton.setImageResource(R.drawable.save);
+            idlemodebutton.setImageResource(R.drawable.home);
+        }
+        else {
+            logger.info("call checkmode no file");
+            uri = null;
+            image.setImageResource(R.drawable.user);
+            image.requestFocus();
+            saveimagebutton.setImageResource(R.drawable.save_disable);
+            idlemodebutton.setImageResource(R.drawable.home_disable);
+            //image.requestFocus();
+            //image.postDelayed(swapImage, 200); //to change image
+        }
+        return content;
+
+    }
+
+
+
+    int counter = 15;
+    Timer timer;
+
+    public void mutethecall() {
+        timer = new Timer();
+        long delay=1000,interval = 1000;
+        listen_flag = true;
+
+        // schedules the task to be run in an interval
+        TimerTask mutecall = new TimerTask() {
+            @Override
+            public void run() {
+                logger.info("mute in process "+counter);
+                if(counter == 0){
+                    timer.cancel();
+                }
+                counter--;
+                Collection<Call> collection = CallManager.getActiveCalls();
+                //mute call
+                Iterator<Call> iterator = collection.iterator();
+                // while loop
+                while (iterator.hasNext()) {
+                    CallManager.setMute(iterator.next(), true);
+                }
+            }
+        };
+        timer.schedule(mutecall,delay,interval);
     }
   /* public  void change(){
       Vibrator v = (Vibrator)
@@ -206,7 +409,7 @@ public class ContactListFragment
 
 
 
-    private Runnable swapImage = new Runnable() {
+    private static Runnable swapImage = new Runnable() {
         @Override
         public void run() {
             logger.info("update uri here");
@@ -294,7 +497,7 @@ public class ContactListFragment
     public void onResume()
     {
         super.onResume();
-
+        logger.info("resume from video");
         contactListView.setAdapter(getContactListAdapter());
 
         // Attach contact groups expand memory
@@ -626,6 +829,20 @@ public class ContactListFragment
 
     /**
      * 
+     */
+
+    /**
+     * Returns the doorbellstatus view.
+     *
+     * @return the contact list view
+     */
+    public ImageView getdoorbellstatus()
+    {
+        return doorbellstatus;
+    }
+
+    /**
+     *
      */
     @Override
     public boolean onChildClick(ExpandableListView listView,

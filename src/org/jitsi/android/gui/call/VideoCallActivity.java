@@ -35,9 +35,12 @@ import android.widget.*;
 import org.jitsi.R;
 import org.jitsi.android.*;
 import org.jitsi.android.gui.call.notification.*;
+import org.jitsi.android.gui.chat.ChatSession;
+import org.jitsi.android.gui.contactlist.ContactListFragment;
 import org.jitsi.android.gui.controller.*;
 import org.jitsi.android.gui.util.*;
 import org.jitsi.android.gui.widgets.*;
+
 import org.jitsi.service.neomedia.*;
 import org.jitsi.service.osgi.*;
 
@@ -148,6 +151,7 @@ public class VideoCallActivity
      * Call objects will be no longer available after the call has ended.
      */
     static CallStateHolder callState = new CallStateHolder();
+    Intent serviceintent;
 
     /**
      * Called when the activity is starting. Initializes the corresponding
@@ -158,11 +162,22 @@ public class VideoCallActivity
      * recently supplied in onSaveInstanceState(Bundle).
      * Note: Otherwise it is null.
      */
+
+
+    /*SharedPreferences sharedpreferences;
+    SharedPreferences.Editor editor;
+
+    Handler handler;
+    Runnable runnable;
+    Timer timer;
+    Timer servicetime;
+    TimerTask servicetask,disconnect;*/
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
+        serviceintent = new Intent(getApplicationContext(),org.jitsi.service.PhoneStateReceiver.class) ;
+        startService(serviceintent);
         setContentView(R.layout.video_call);
 
         this.callIdentifier
@@ -332,7 +347,7 @@ public class VideoCallActivity
                     }
                 });
             }
-        }).start();        
+        }).start();
     }
 
     /**
@@ -347,6 +362,11 @@ public class VideoCallActivity
         {
             public void onClick(View v)
             {
+                if(ContactListFragment.listen_flag){
+                    ContactListFragment.listen_flag=false;
+                }else {
+                    ContactListFragment.listen_flag=true;
+                }
                 CallManager.setMute(call, !isMuted());
             }
         });
@@ -504,6 +524,12 @@ public class VideoCallActivity
     protected void onResume()
     {
         super.onResume();
+        //stopService(serviceintent);
+        /*try {
+            unmutecall();
+        }
+        catch (Exception e){}
+*/
 
         // Clears the in call notification
         if(CallNotificationManager.get().isNotificationRunning(callIdentifier))
@@ -572,6 +598,123 @@ public class VideoCallActivity
             leaveNotification();
         }
     }
+
+   /* private void muteonbackground() {
+
+        logger.info("jitsi is in service started oncreate");
+        sharedpreferences = getSharedPreferences("preference", Context.MODE_PRIVATE);
+        servicetime = new Timer();
+
+                //getting time in second to disconnect call when application is in background form sharedpreferenc
+                String secondtodisconnect = sharedpreferences.getString(JitsiApplication.getResString(R.string.pref_key_call_disconnect), "20");
+                Long timetodisconnet = Long.valueOf(secondtodisconnect);
+                logger.info("jitsi is in foreground " + secondtodisconnect + " " + timetodisconnet);
+
+                //collection contains all the current calls
+                final Collection<Call> collection = CallManager.getActiveCalls();
+                //condition to check jitsi in background && there is a call
+
+                if (!collection.isEmpty()) {
+                    if (!isJitsiinforeground()) {
+                        // todo hangup call in 30sec
+                        // CallManager.hangupCall(call);
+                        logger.info("jitsi is in background and has call");
+                        //mychange timertask to end call when call is in background after given delay
+                        timer = new Timer();
+                        long delay = timetodisconnet * 1000;
+
+                        //mute call
+                        Iterator<Call> iterator = collection.iterator();
+                        // while loop
+                        while (iterator.hasNext()) {
+                            CallManager.setMute(iterator.next(), true);
+                        }
+
+                        // schedules the task to be run in an interval
+                        disconnect = new TimerTask() {
+                            @Override
+                            public void run() {
+
+                                logger.info("jitsi is in timetask started");
+                                // task to run goes here
+                                if (!isJitsiinforeground()) {
+                                    Iterator<Call> iterator = collection.iterator();
+                                    // while loop
+                                    while (iterator.hasNext()) {
+                                        CallManager.hangupCall(iterator.next());
+                                        CallManager.setMute(iterator.next(), true);
+                                    }
+                                }
+                                try{
+                                    timer.cancel();
+                                }
+                                catch (Exception e){
+
+                                }
+                                try {   timer.purge();
+
+                                }
+                                catch (Exception e){
+
+                                }
+                                logger.info("jitsi is in timetask stopped");
+                            }
+                        };
+                        timer.schedule(disconnect, delay);
+                    } else {
+
+                        logger.info("jitsi is in foreground and has call");
+                        Iterator<Call> iterator = collection.iterator();
+                        // while loop
+                        while (iterator.hasNext()) {
+                            CallManager.setMute(iterator.next(), false);
+                        }
+                        onDestroy();
+                    }
+                } else {
+                    onDestroy();
+
+                }
+
+                // handler.postDelayed(runnable, INTERVAL);
+            }
+    private void unmutecall() {
+
+        final Collection<Call> collections = CallManager.getActiveCalls();
+        //condition to check jitsi in background && there is a call
+
+        if (!collections.isEmpty()) {
+
+            // todo hangup call in 30sec
+            // CallManager.hangupCall(call);
+            logger.info("jitsi is in foreground and has call");
+            //mychange timertask to end call when call is in background after given delay
+
+
+            //mute call
+            Iterator<Call> iterator = collections.iterator();
+            // while loop
+            while (iterator.hasNext()) {
+                CallManager.setMute(iterator.next(), false);
+            }
+        }
+    }
+
+
+
+
+    private boolean isJitsiinforeground() {
+        try {
+            if ((JitsiApplication.getCurrentActivity().toString()).contains("jitsi")) {
+                return true;
+            }
+            logger.info("Current activity is " + JitsiApplication.getCurrentActivity());
+            return false;
+        } catch (Exception e) {
+            logger.info("Current activity Exception is " + e.getMessage());
+            return false;
+        }
+    }*/
 
     /**
      * Leaves the in call notification.
@@ -843,6 +986,9 @@ public class VideoCallActivity
     {
         switch (item.getItemId())
         {
+            case R.id.alram:
+                blowhorn();
+                return true;
             case R.id.low_resolution:
                 return true;
             case R.id.high_resolution:
@@ -857,6 +1003,13 @@ public class VideoCallActivity
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void blowhorn() {
+        try {
+            ChatSession.sendMessage("Alarm");
+        }catch (Exception e){
+            logger.info("alarm message "+e.getMessage());
+        }    }
 
     /**
      * Displays technical call information dialog.
@@ -1311,5 +1464,12 @@ public class VideoCallActivity
         String callDuration="";
         String errorReason="";
         boolean callEnded=false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        logger.info("call is ended 1");
+        //stopService(serviceintent);
     }
 }
