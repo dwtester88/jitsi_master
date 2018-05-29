@@ -1,68 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-              android:weightSum="10"
-    android:background="@color/white">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background">
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_above="@+id/checklayout"
+            android:layout_height="match_parent">
     <ImageView
-            android:src="@color/chat_background"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="8"
-            android:layout_margin="5dp"
-            android:id="@+id/imageView2"/>
+            android:src="@drawable/user"
+            android:contentDescription="@string/service_gui_CALL"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+
+            android:id="@+id/imageView2"
+           />
+    <ImageView
+            android:id="@+id/doorbellstatus"
+            android:layout_height="20dip"
+            android:layout_width="20dip"
+            android:layout_weight="1"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/contact_offline"/>
+
+        <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar"
+                android:layout_marginTop="20dp"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+        />
+    </RelativeLayout>
 
 
-    <LinearLayout android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:weightSum="3"
-                  android:layout_weight="1"
-                  android:layout_gravity="center"
-                  android:layout_margin="5dp"
-                  android:orientation="horizontal">
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:id="@+id/broadcastbtn"
-            android:padding="5dp"
-            android:text="picture"
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="80dp"
+            android:id="@+id/checklayout"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:background="@color/dark_grey"
+            >
 
-            />
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/videobtn"
-            android:layout_margin="2dp"
-            android:padding="5dp"
-            android:text="video"
-    />
+        <!--<ImageButton-->
+                <!--android:background="@drawable/image_button_background"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:focusable="true"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/listenbtn"-->
+                <!--android:layout_margin="2dp"-->
+                <!--android:padding="2dp"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:adjustViewBounds="true"-->
+                <!--android:visibility="invisible"-->
+                <!--android:layout_weight="1"-->
+                <!--android:src="@drawable/speaker"/>-->
+        <ImageButton
+                android:background="@drawable/image_button_background"
+                android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:id="@+id/broadcastbtn"
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_weight="1"
+                android:src="@drawable/camera"/>
+        <ImageButton
+                android:background="@drawable/image_button_background"
+                android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/videobtn"
+                android:layout_margin="2dp"
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_weight="1"
+                android:src="@drawable/video"/>
+
+        <ImageButton
+                android:background="@drawable/image_button_background"
+                android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/idlemodebtn"
+                android:layout_margin="2dp"
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_weight="1"
+                android:src="@drawable/home_disable"/>
+
+        <ImageButton
+                android:background="@drawable/image_button_background"
+                android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/savebtn"
+                android:layout_margin="2dp"
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_weight="1"
+                android:src="@drawable/save_disable"/>
 
 
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/dooropenbtn"
-            android:layout_margin="2dp"
-            android:padding="5dp"
-            android:text="door"
-    />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="80dp"
+            android:id="@+id/calllayout"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:background="@color/dark_grey"
+            android:visibility="invisible"
+    >
+
+
+        <ImageButton
+                android:background="@drawable/image_button_background"
+                android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkmode"
+                android:layout_margin="2dp"
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_weight="1"
+                android:text="video"
+                android:src="@drawable/callend"/>
+
+        <ImageButton
+                android:background="@drawable/image_button_background"
+                android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_margin="2dp"
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_weight="1"
+                android:text="video"
+                android:src="@drawable/video"/>
+
+        <ImageButton
+                android:background="@drawable/image_button_background"
+                android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               android:visibility="invisible"
+                android:layout_margin="2dp"
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_weight="1"
+                android:text="door"
+                android:src="@drawable/home_disable"/>
+
+        <ImageButton
+                android:background="@drawable/image_button_background"
+                android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/makecall"
+                android:layout_margin="2dp"
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_weight="1"
+                android:text="door"
+                android:src="@drawable/makecall"/>
+
+
+
     </LinearLayout>
 
     <ExpandableListView
             android:id="@+id/contactListView"
             android:layout_width="fill_parent"
             android:layout_weight="1"
-            android:layout_height="100dp"
+            android:layout_height="0dp"
             android:choiceMode="singleChoice"
             android:dividerHeight="0dip"
             android:divider="@null"
             android:groupIndicator="@null"
             android:visibility="invisible"
             android:cacheColorHint="@color/white"/>
-
-
 
 
     <RelativeLayout
@@ -73,78 +218,76 @@
             android:visibility="invisible">
 
 
-
-
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="8dip">
-
-            <TextView
-                android:id="@+id/callSearchText"
-                style="@style/MediumFont"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="left"
-                android:textColor="@color/grey"
-                android:layout_marginRight="5dip"
-                android:text="@string/service_gui_CALL"/>
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="8dip">
 
             <TextView
-                android:id="@+id/callSearchContact"
-                style="@style/MediumFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="left"
-                android:textColor="@color/list_text_selection_color"/>
+                    android:id="@+id/callSearchText"
+                    style="@style/MediumFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="left"
+                    android:textColor="@color/grey"
+                    android:layout_marginRight="5dip"
+                    android:text="@string/service_gui_CALL"/>
+
+            <TextView
+                    android:id="@+id/callSearchContact"
+                    style="@style/MediumFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="left"
+                    android:textColor="@color/list_text_selection_color"/>
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@anim/background_fadein"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:clickable="true">
-    
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@anim/background_fadein"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:clickable="true">
+
             <ImageView
-                android:id="@+id/buttonSeparatorView"
-                android:src="@drawable/contact_list_v_separator"
-                android:layout_width="1dip"
-                android:layout_height="40dip"
-                android:layout_marginRight="15dp"
-                android:layout_gravity="center_vertical"/>
-    
+                    android:id="@+id/buttonSeparatorView"
+                    android:src="@drawable/contact_list_v_separator"
+                    android:layout_width="1dip"
+                    android:layout_height="40dip"
+                    android:layout_marginRight="15dp"
+                    android:layout_gravity="center_vertical"/>
+
             <ImageButton
-                android:id="@+id/contactCallButton"
-                android:src="@drawable/call"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/service_gui_CALL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="15dp"
-                android:layout_gravity="center_vertical"/>
+                    android:id="@+id/contactCallButton"
+                    android:src="@drawable/call"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/service_gui_CALL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="15dp"
+                    android:layout_gravity="center_vertical"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="1dip"
-            android:layout_alignParentBottom="true"
-            android:background="@color/contact_list_divider"/>
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:layout_alignParentBottom="true"
+                android:background="@color/contact_list_divider"/>
 
         <LinearLayout
-            android:layout_width="7dip"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/chatseparator"/>
+                android:layout_width="7dip"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/chatseparator"/>
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

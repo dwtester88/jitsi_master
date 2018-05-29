@@ -111,18 +111,6 @@
             android:background="#40000000">
 
         <ImageButton
-                android:id="@+id/speakerphoneButton"
-                android:src="@drawable/callvolume"
-                android:background="@drawable/image_button_background"
-                android:contentDescription="@string/service_gui_VOLUME_CONTROL_TOOL_TIP"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:focusable="true"
-                android:onClick="onSpeakerphoneClicked"/>
-
-        <ImageButton
                 android:id="@+id/callMicrophoneButton"
                 android:src="@drawable/callmicrophone"
                 android:background="@drawable/image_button_background"
@@ -134,14 +122,30 @@
                 android:focusable="true"/>
 
         <ImageButton
+                android:id="@+id/speakerphoneButton"
+                android:src="@drawable/callvolume"
+                android:background="@drawable/image_button_background"
+                android:contentDescription="@string/service_gui_VOLUME_CONTROL_TOOL_TIP"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:visibility="invisible"
+                android:onClick="onSpeakerphoneClicked"/>
+
+
+
+        <ImageButton
                 android:id="@+id/callVideoButton"
-                android:src="@drawable/callvideo"
+                android:src="@drawable/callvolume"
                 android:background="@drawable/image_button_background"
                 android:contentDescription="@string/service_gui_LOCAL_VIDEO_BUTTON_TOOL_TIP"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
+                android:visibility="invisible"
                 android:focusable="true"/>
 
         <ImageButton
@@ -154,8 +158,8 @@
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:focusable="true"
+                android:visibility="invisible"
                 android:onClick="onHoldButtonClicked"/>
-
         <ImageButton
                 android:id="@+id/callHangupButton"
                 android:src="@drawable/callhangup"
@@ -166,5 +170,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:focusable="true"/>
+
+
     </LinearLayout>
 </RelativeLayout>
