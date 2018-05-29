@@ -273,10 +273,8 @@ public class AndroidUtils
     {
         Context context = JitsiApplication.getGlobalContext();
 
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
-                && (context.getResources().getConfiguration().screenLayout
-                        & Configuration.SCREENLAYOUT_SIZE_MASK)
-                    >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+
+        return false;
     }
 
     /**
