@@ -17,10 +17,13 @@
  */
 package org.jitsi.android.gui.call;
 
+import android.app.Activity;
 import android.content.*;
 import android.os.*;
 import android.view.*;
 
+import android.widget.ImageView;
+import net.java.sip.communicator.util.Logger;
 import org.jitsi.*;
 import org.jitsi.android.*;
 import org.jitsi.android.gui.util.*;
@@ -32,38 +35,56 @@ import org.jitsi.service.osgi.*;
  * @author Pawel Domas
  */
 public class CallEnded
-    extends OSGiFragment
-{
+        extends OSGiFragment {
+    ImageView hangup;
+    /**
+     * The logger
+     */
+    private static final Logger logger =
+            Logger.getLogger(CallEnded.class);
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
+
         View v = inflater.inflate(R.layout.call_ended, container, false);
 
         ViewUtil.setTextViewValue(v, R.id.callTime,
-                                  VideoCallActivity.callState.callDuration);
+                VideoCallActivity.callState.callDuration);
         String errorReason = VideoCallActivity.callState.errorReason;
-        if(!errorReason.isEmpty())
-        {
+        if (!errorReason.isEmpty()) {
             ViewUtil.setTextViewValue(v, R.id.callErrorReason, errorReason);
-        }
-        else
-        {
+        } else {
             ViewUtil.ensureVisible(v, R.id.callErrorReason, false);
         }
 
-        v.findViewById(R.id.callHangupButton)
-            .setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    Context ctx = getActivity();
-                    getActivity().finish();
-                    ctx.startActivity(JitsiApplication.getHomeIntent());
-                }
-            });
+        hangup = (ImageView) v.findViewById(R.id.callHangupButton);
+        hangup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logger.info("mychange videocallactivity status is at callended ");
+                Context ctx = getActivity();
+                getActivity().finish();
+                ctx.startActivity(JitsiApplication.getHomeIntent());
+            }
+        });
+
+            hangup.postDelayed(endcall, 120);
+
 
         return v;
     }
+
+    private Runnable endcall = new Runnable() {
+        @Override
+        public void run() {
+            try{
+                hangup.performClick();
+            }
+            catch (Exception e){
+
+            }
+
+        }
+    };
 }
