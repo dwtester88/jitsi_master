@@ -131,6 +131,10 @@ public class JitsiApplication
     {
 
         // Shutdown the OSGi service
+        //mychanges
+        stopService(new Intent(getApplicationContext(),org.jitsi.service.PhoneStateReceiver.class));
+        JitsiApplication.getCurrentActivity().finish();
+        //below was original and above lines are my changes
         stopService(new Intent(this, OSGiService.class));
         // Broadcast the exit action
         Intent exitIntent = new Intent();
