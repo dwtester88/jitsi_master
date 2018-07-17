@@ -106,11 +106,13 @@ public class AndroidCallUtil
         if(createCallThread != null)
         {
             logger.warn("Another call is already being created");
+            Toast.makeText(context,"Another call is already being created",Toast.LENGTH_LONG).show();
             return;
         }
         else if(CallManager.getActiveCallsCount() > 0)
         {
             logger.warn("Another call is in progress");
+            Toast.makeText(context,"Another call is in progress",Toast.LENGTH_LONG).show();
             return;
         }
 

@@ -29,6 +29,8 @@ import org.jitsi.android.*;
 import org.jitsi.android.gui.util.*;
 import org.jitsi.service.osgi.*;
 
+import java.io.File;
+
 /**
  * Fragment displayed in <tt>VideoCallActivity</tt> when the call has ended.
  *
@@ -52,6 +54,14 @@ public class CallEnded
         ViewUtil.setTextViewValue(v, R.id.callTime,
                 VideoCallActivity.callState.callDuration);
         String errorReason = VideoCallActivity.callState.errorReason;
+
+        File file = new File(Environment.getExternalStorageDirectory(),"pic.jpg");
+
+        if(file.exists()){
+            file.delete();
+        }else{
+        }
+
         if (!errorReason.isEmpty()) {
             ViewUtil.setTextViewValue(v, R.id.callErrorReason, errorReason);
         } else {

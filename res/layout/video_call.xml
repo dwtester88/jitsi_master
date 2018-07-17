@@ -6,14 +6,34 @@
                 android:background="@drawable/background"
                 android:keepScreenOn="true"
         >
+    <RelativeLayout android:layout_width="wrap_content"
+                    android:id="@+id/relativelayout"
+                    android:layout_height="wrap_content">
+
+
+
     <org.jitsi.android.gui.call.RemoteVideoLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_height="@dimen/avatar_height"
             android:id="@+id/remoteVideoContainer"
             android:orientation="vertical"
-            android:layout_centerInParent="true"
             android:background="@color/red"
             />
+
+    <ImageView
+            android:id="@+id/calleeAvatar"
+            android:layout_marginTop="80dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/service_gui_CALL"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/avatar_height"
+           />
+
     <LinearLayout
             android:layout_width="160dp"
             android:layout_height="120dp"
@@ -24,10 +44,14 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="80dp"
             />
+
+    </RelativeLayout>
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_above="@+id/buttonContainer"
+            android:layout_below="@+id/relativelayout"
+
             >
         <LinearLayout
                 android:layout_width="wrap_content"
@@ -37,14 +61,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 >
-            <ImageView
-                    android:id="@+id/calleeAvatar"
-                    android:src="@drawable/personphoto"
-                    android:contentDescription="@string/service_gui_CALL"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/avatar_height"
-                    android:layout_gravity="center_horizontal"
-                    android:paddingBottom="@dimen/between_padding"/>
+
             <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

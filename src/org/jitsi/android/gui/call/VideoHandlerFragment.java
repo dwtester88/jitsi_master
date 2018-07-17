@@ -40,6 +40,7 @@ import org.jitsi.service.neomedia.*;
 import org.jitsi.service.osgi.*;
 import org.jitsi.util.event.*;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -736,6 +737,13 @@ public class VideoHandlerFragment
             }
 
             calleeAvatar.setVisibility(View.GONE);
+
+            File file = new File(Environment.getExternalStorageDirectory(),"pic.jpg");
+
+            if(file.exists()){
+                file.delete();
+            }else{
+            }
 
             // When remote video is visible then the call info is positioned
             // in the bottom part of the screen

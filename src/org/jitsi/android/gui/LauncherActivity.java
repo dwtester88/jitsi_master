@@ -91,7 +91,7 @@ public class LauncherActivity
                 = AnimationUtils.loadAnimation(this, R.anim.fadein);
         myImageView.startAnimation(myFadeInAnimation);
 		
-		Toast.makeText(getApplicationContext(), "Toasted by Me: ", Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), "Toasted coffee by Me: ", Toast.LENGTH_LONG).show();
 
         // Get restore Intent and display "Restoring..." label
         Intent intent = getIntent();

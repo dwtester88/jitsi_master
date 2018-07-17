@@ -121,7 +121,7 @@ public class PhoneStateReceiver extends Service {
                             audioTrackRenderer.stop();*/
                             /*OpenSLESRenderer openSLESRenderer = new OpenSLESRenderer();
                             openSLESRenderer.stop();*/
-                           // CallManager.putOnHold(iterator.next(),true);
+                            // CallManager.putOnHold(iterator.next(),true);
                         }
 
                         // schedules the task to be run in an interval
@@ -163,11 +163,11 @@ public class PhoneStateReceiver extends Service {
                             Iterator<Call> iterator = collection.iterator();
                             // while loop
                             while (iterator.hasNext()) {
-                               // UnMuteAudio();
+                                // UnMuteAudio();
                                 CallManager.setMute(iterator.next(), false);
                             }
                         }
-                       // onDestroy();
+                        // onDestroy();
                     }
                 } else {
                     /*try {
@@ -189,7 +189,7 @@ public class PhoneStateReceiver extends Service {
                     } catch (Exception e) {
 
                     }
-                   // onDestroy();
+                    // onDestroy();
                 }
                 // handler.postDelayed(runnable, INTERVAL);
             }
@@ -294,7 +294,7 @@ public class PhoneStateReceiver extends Service {
         logger.info("jitsi is in service stopped");
         try {
             logger.info("caught ex  id " + Thread.currentThread().getName());
-           // Thread.sleep(20000);
+            // Thread.sleep(20000);
         } catch(Exception ex) {
             logger.info("caught ex" + ex.getMessage());
         }
@@ -329,21 +329,21 @@ public class PhoneStateReceiver extends Service {
 
     public void MuteAudio(){
         AudioManager mAlramMAnager = (AudioManager) JitsiApplication.getCurrentActivity().getSystemService(JitsiApplication.getGlobalContext().AUDIO_SERVICE);
-            mAlramMAnager.setStreamMute(AudioManager.STREAM_NOTIFICATION, true);
-            mAlramMAnager.setStreamMute(AudioManager.STREAM_ALARM, true);
-            mAlramMAnager.setStreamMute(AudioManager.STREAM_MUSIC, true);
-            mAlramMAnager.setStreamMute(AudioManager.STREAM_RING, true);
-            mAlramMAnager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
+        mAlramMAnager.setStreamMute(AudioManager.STREAM_NOTIFICATION, true);
+        mAlramMAnager.setStreamMute(AudioManager.STREAM_ALARM, true);
+        mAlramMAnager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+        mAlramMAnager.setStreamMute(AudioManager.STREAM_RING, true);
+        mAlramMAnager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
     }
 
     public void UnMuteAudio(){
         AudioManager mAlramMAnager = (AudioManager) JitsiApplication.getCurrentActivity().getSystemService(JitsiApplication.getGlobalContext().AUDIO_SERVICE);
 
-            mAlramMAnager.setStreamMute(AudioManager.STREAM_NOTIFICATION, false);
-            mAlramMAnager.setStreamMute(AudioManager.STREAM_ALARM, false);
-            mAlramMAnager.setStreamMute(AudioManager.STREAM_MUSIC, false);
-            mAlramMAnager.setStreamMute(AudioManager.STREAM_RING, false);
-            mAlramMAnager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+        mAlramMAnager.setStreamMute(AudioManager.STREAM_NOTIFICATION, false);
+        mAlramMAnager.setStreamMute(AudioManager.STREAM_ALARM, false);
+        mAlramMAnager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+        mAlramMAnager.setStreamMute(AudioManager.STREAM_RING, false);
+        mAlramMAnager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
 
     }
 

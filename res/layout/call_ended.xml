@@ -25,8 +25,9 @@
                     android:contentDescription="@string/service_gui_CALL"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/avatar_height"
+                    android:scaleType="fitXY"
                     android:layout_gravity="center_horizontal"
-                    android:paddingBottom="@dimen/between_padding"/>
+                    />
             <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
