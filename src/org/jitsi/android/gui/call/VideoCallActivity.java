@@ -18,12 +18,14 @@
 package org.jitsi.android.gui.call;
 
 import java.beans.*;
+import java.io.File;
 import java.util.*;
 
 import android.annotation.*;
 import android.content.*;
 import android.graphics.Color;
 import android.media.*;
+import android.net.Uri;
 import android.os.*;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -153,6 +155,9 @@ public class VideoCallActivity
     static CallStateHolder callState = new CallStateHolder();
     Intent serviceintent;
 
+    private ImageView calleeAvatar;
+    private File file;
+
     /**
      * Called when the activity is starting. Initializes the corresponding
      * call interface.
@@ -264,6 +269,16 @@ public class VideoCallActivity
             volControl = (CallVolumeCtrlFragment)
                 fragmentManager.findFragmentByTag(VOLUME_CTRL_TAG);
         }
+
+
+        calleeAvatar = (ImageView) findViewById(R.id.calleeAvatar);
+
+        file = new File(Environment.getExternalStorageDirectory(),"pic.jpg");
+        if(file.exists()){
+            calleeAvatar.setImageURI(Uri.fromFile(file));
+        }else{
+            calleeAvatar.setImageResource(R.drawable.personphoto);
+        }
     }
 
     @Override
@@ -293,7 +308,7 @@ public class VideoCallActivity
         {
             public void onClick(View v)
             {
-                // Start the hang up Thread, Activity will be closed later 
+                // Start the hang up Thread, Activity will be closed later
                 // on call ended event
                 CallManager.hangupCall(call);
             }
@@ -308,12 +323,12 @@ public class VideoCallActivity
     {
         if(finishing)
             return;
-        
+
         finishing = true;
 
         new Thread(new Runnable()
         {
-            public void run() 
+            public void run()
             {
                 // Waits for camera to be stopped
                 getVideoFragment().ensureCameraClosed();
@@ -358,8 +373,10 @@ public class VideoCallActivity
         final ImageView microphoneButton
             = (ImageView) findViewById(R.id.callMicrophoneButton);
 
+
         microphoneButton.setOnClickListener(new View.OnClickListener()
         {
+
             public void onClick(View v)
             {
                 if(ContactListFragment.listen_flag){
@@ -893,9 +910,9 @@ public class VideoCallActivity
             onHold = CallPeerState.ON_HOLD_LOCALLY.equals(peerState)
                     || CallPeerState.ON_HOLD_MUTUALLY.equals(peerState);
         }
-        else 
+        else
         {
-            logger.warn("No peer belongs to call: "+call.toString());    
+            logger.warn("No peer belongs to call: "+call.toString());
         }
 
         return onHold;
@@ -949,7 +966,7 @@ public class VideoCallActivity
     public void setLocalVideoVisible(final boolean isVisible)
     {
         // It can not be hidden here, because the preview surface will be
-        // destroyed and camera recording system will crash     
+        // destroyed and camera recording system will crash
     }
 
     private VideoHandlerFragment getVideoFragment()
@@ -1470,6 +1487,10 @@ public class VideoCallActivity
     protected void onDestroy() {
         super.onDestroy();
         logger.info("call is ended 1");
+        if(file.exists()){
+             file.delete();
+        }else{
+        }
         //stopService(serviceintent);
     }
 }

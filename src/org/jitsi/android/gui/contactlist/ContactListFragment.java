@@ -53,15 +53,15 @@ import java.util.TimerTask;
  *
  */
 public class ContactListFragment
-    extends OSGiFragment
-    implements  OnChildClickListener,
-                OnGroupClickListener
+        extends OSGiFragment
+        implements  OnChildClickListener,
+        OnGroupClickListener
 {
     /**
      * The logger
      */
     private final static Logger logger
-        = Logger.getLogger(ContactListFragment.class);
+            = Logger.getLogger(ContactListFragment.class);
 
     /**
      * Search options menu items.
@@ -145,8 +145,8 @@ public class ContactListFragment
 
         file = new File(Environment.getExternalStorageDirectory(),"pic.jpg");
         content = inflater.inflate( R.layout.contact_list,
-                                         container,
-                                         false);
+                container,
+                false);
 
         doorbellstatus = (ImageView) content.findViewById(R.id.doorbellstatus);
         progressBar = (ProgressBar) content.findViewById(R.id.progressBar);
@@ -181,8 +181,9 @@ public class ContactListFragment
             public void onClick(View view) {
                 listen_flag = true;
                 //ChatSession.sendMessage("");
+                logger.info("Videocall Error: button clicked");
                 if(file.exists()){
-                    file.delete();
+                   // file.delete();
                 }else{
                 }
                 try {
@@ -227,7 +228,7 @@ public class ContactListFragment
         idlemodebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               //remove image and switch mode to idle mode
+                //remove image and switch mode to idle mode
                 if(file.exists()){
                     file.delete();
                     checkmode();
@@ -275,15 +276,17 @@ public class ContactListFragment
         makecallbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                logger.info("Videocall Error: button clicked");
                 listen_flag = true;
                 //ChatSession.sendMessage("");
                 if(file.exists()){
-                    file.delete();
+                   // file.delete();
                 }else{
                 }
                 try {
                     ChatSession.sendMessage("incomingcall");
-                    AndroidCallUtil.createAndroidCall(getActivity(),videobutton,ChatSession.door_contact.getAddress());
+                    AndroidCallUtil.createAndroidCall(getActivity(),makecallbtn,ChatSession.door_contact.getAddress());
                 }
                 catch (Exception e){
                     Toast.makeText(JitsiApplication.getGlobalContext(),"Error calling end user. Please try again",Toast.LENGTH_LONG).show();
@@ -314,32 +317,32 @@ public class ContactListFragment
     }
 
     private void hidecallbuttons() {
-            Activity ctx2 = JitsiApplication.getCurrentActivity();
-            final LinearLayout calllayout =(LinearLayout) ctx2.findViewById(R.id.calllayout);
-            final LinearLayout checklayout =(LinearLayout) ctx2.findViewById(R.id.checklayout);
-            ctx2.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        calllayout.setVisibility(View.INVISIBLE);
-                        checklayout.setVisibility(View.VISIBLE);
-                    }catch (Exception e){
-                        logger.info("mychange trying to save piture and got error "+e.getMessage());
-                    }
+        Activity ctx2 = JitsiApplication.getCurrentActivity();
+        final LinearLayout calllayout =(LinearLayout) ctx2.findViewById(R.id.calllayout);
+        final LinearLayout checklayout =(LinearLayout) ctx2.findViewById(R.id.checklayout);
+        ctx2.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    calllayout.setVisibility(View.INVISIBLE);
+                    checklayout.setVisibility(View.VISIBLE);
+                }catch (Exception e){
+                    logger.info("mychange trying to save piture and got error "+e.getMessage());
                 }
-            });
+            }
+        });
     }
 
     private static void showcallbuttons() {
         calllayout =(LinearLayout) content.findViewById(R.id.calllayout);
         checklayout =(LinearLayout) content.findViewById(R.id.checklayout);
 
-                try {
-                    calllayout.setVisibility(View.VISIBLE);
-                    checklayout.setVisibility(View.INVISIBLE);
-                }catch (Exception e){
-                    logger.info("mychange trying to save piture and got error "+e.getMessage());
-                }
+        try {
+            calllayout.setVisibility(View.VISIBLE);
+            checklayout.setVisibility(View.INVISIBLE);
+        }catch (Exception e){
+            logger.info("mychange trying to save piture and got error "+e.getMessage());
+        }
     }
 
 
@@ -438,7 +441,7 @@ public class ContactListFragment
 
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager
-            = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
+                = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
 
         this.searchItem = menu.findItem(R.id.search);
 
@@ -446,30 +449,30 @@ public class ContactListFragment
         if(AndroidUtils.hasAPI(14))
         {
             searchItem.setOnActionExpandListener(
-                new MenuItem.OnActionExpandListener()
-            {
-                @Override
-                public boolean onMenuItemActionCollapse(MenuItem item)
-                {
-                    filterContactList("");
+                    new MenuItem.OnActionExpandListener()
+                    {
+                        @Override
+                        public boolean onMenuItemActionCollapse(MenuItem item)
+                        {
+                            filterContactList("");
 
-                    return true; // Return true to collapse action view
-                }
-                public boolean onMenuItemActionExpand(MenuItem item)
-                {
-                    return true; // Return true to expand action view
-                }
-            });
+                            return true; // Return true to collapse action view
+                        }
+                        public boolean onMenuItemActionExpand(MenuItem item)
+                        {
+                            return true; // Return true to expand action view
+                        }
+                    });
         }
 
         if(AndroidUtils.hasAPI(11))
         {
             SearchView searchView = (SearchView) searchItem.getActionView();
             searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(activity.getComponentName()));
+                    searchManager.getSearchableInfo(activity.getComponentName()));
 
             int id = searchView.getContext().getResources()
-                .getIdentifier("android:id/search_src_text", null, null);
+                    .getIdentifier("android:id/search_src_text", null, null);
             TextView textView = (TextView) searchView.findViewById(id);
             textView.setTextColor(getResources().getColor(R.color.white));
             textView.setHintTextColor(getResources().getColor(R.color.white));
@@ -502,7 +505,7 @@ public class ContactListFragment
 
         // Attach contact groups expand memory
         listExpandHandler = new MetaGroupExpandHandler(contactListAdapter,
-                                                       contactListView);
+                contactListView);
         listExpandHandler.bindAndRestore();
 
         // Update active chats
@@ -513,7 +516,7 @@ public class ContactListFragment
         {
             SearchView searchView = (SearchView) searchItem.getActionView();
             int id = searchView.getContext().getResources()
-                .getIdentifier("android:id/search_src_text", null, null);
+                    .getIdentifier("android:id/search_src_text", null, null);
             TextView textView = (TextView) searchView.findViewById(id);
 
             filterContactList(textView.getText().toString());
@@ -523,7 +526,7 @@ public class ContactListFragment
 
         // Restore scroll position
         contactListView.setSelectionFromTop(scrollPosition,
-                                            scrollTopPosition);
+                scrollTopPosition);
     }
 
     private MetaContactListAdapter getContactListAdapter()
@@ -541,8 +544,8 @@ public class ContactListFragment
         if(sourcesAdapter == null)
         {
             sourcesAdapter
-                = new QueryContactListAdapter(
-                        this, getContactListAdapter());
+                    = new QueryContactListAdapter(
+                    this, getContactListAdapter());
 
             sourcesAdapter.initModelData();
         }
@@ -678,7 +681,7 @@ public class ContactListFragment
         }
 
         OperationSetExtendedAuthorizations authOpSet
-            = pps.getOperationSet(OperationSetExtendedAuthorizations.class);
+                = pps.getOperationSet(OperationSetExtendedAuthorizations.class);
 
         boolean reRequestVisible = false;
 
@@ -686,7 +689,7 @@ public class ContactListFragment
                 && authOpSet.getSubscriptionStatus(contact) != null
                 && !authOpSet.getSubscriptionStatus(contact)
                 .equals(OperationSetExtendedAuthorizations
-                                .SubscriptionStatus.Subscribed))
+                        .SubscriptionStatus.Subscribed))
         {
             reRequestVisible = true;
         }
@@ -704,7 +707,7 @@ public class ContactListFragment
                                     MenuInflater inflater, int group)
     {
         this.clickedGroup
-            = (MetaContactGroup) contactListAdapter.getGroup(group);
+                = (MetaContactGroup) contactListAdapter.getGroup(group);
 
         // Inflate contact list context menu
         inflater.inflate(R.menu.group_menu, menu);
@@ -730,10 +733,10 @@ public class ContactListFragment
             case R.id.move_contact:
                 // Show move contact dialog
                 FragmentTransaction ft
-                    = getFragmentManager().beginTransaction();
+                        = getFragmentManager().beginTransaction();
                 ft.addToBackStack(null);
                 DialogFragment newFragment
-                    = MoveToGroupDialog.getInstance(clickedContact);
+                        = MoveToGroupDialog.getInstance(clickedContact);
                 newFragment.show(ft, "dialog");
                 return true;
             case R.id.remove_group:
@@ -741,7 +744,7 @@ public class ContactListFragment
                 return true;
             case R.id.close_chat:
                 ChatSession clickedChat
-                    = ChatSessionManager.getActiveChat(clickedContact);
+                        = ChatSessionManager.getActiveChat(clickedContact);
                 if(clickedChat != null)
                 {
                     onCloseChat(clickedChat);
@@ -810,7 +813,7 @@ public class ContactListFragment
                     DialogActivity.showConfirmDialog(
                             ctx,
                             ctx.getString(
-                                R.string.service_gui_RE_REQUEST_AUTHORIZATION),
+                                    R.string.service_gui_RE_REQUEST_AUTHORIZATION),
                             e.getMessage(), null, null);
                 }
             }
@@ -828,7 +831,7 @@ public class ContactListFragment
     }
 
     /**
-     * 
+     *
      */
 
     /**
@@ -852,10 +855,10 @@ public class ContactListFragment
                                 long id)
     {
         BaseContactListAdapter adapter
-            = (BaseContactListAdapter) listView.getExpandableListAdapter();
+                = (BaseContactListAdapter) listView.getExpandableListAdapter();
 
         int position
-            = adapter.getListIndex(groupPosition, childPosition);
+                = adapter.getListIndex(groupPosition, childPosition);
 
         contactListView.setSelection(position);
         adapter.invalidateViews();
@@ -864,7 +867,7 @@ public class ContactListFragment
         if(!(clicked instanceof MetaContact))
         {
             logger.debug(
-                "No meta contact at "+groupPosition+", "+childPosition);
+                    "No meta contact at "+groupPosition+", "+childPosition);
             return false;
         }
 
@@ -891,7 +894,7 @@ public class ContactListFragment
      */
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public boolean onGroupClick(ExpandableListView parent, View v,
-        int groupPosition, long id)
+                                int groupPosition, long id)
     {
         if (contactListView.isGroupExpanded(groupPosition))
             contactListView.collapseGroup(groupPosition);
@@ -944,7 +947,7 @@ public class ContactListFragment
 
             // Display the contact list
             if( contactListView.getExpandableListAdapter()
-                != getContactListAdapter() )
+                    != getContactListAdapter() )
             {
                 contactListView.setAdapter(getContactListAdapter());
 
@@ -965,7 +968,7 @@ public class ContactListFragment
 
             // Display search results
             if( contactListView.getExpandableListAdapter()
-                != getSourcesAdapter() )
+                    != getSourcesAdapter() )
             {
                 contactListView.setAdapter(getSourcesAdapter());
             }
@@ -987,7 +990,7 @@ public class ContactListFragment
         }
 
         RelativeLayout callSearchLayout
-            = (RelativeLayout) view.findViewById(R.id.callSearchLayout);
+                = (RelativeLayout) view.findViewById(R.id.callSearchLayout);
 
         if (StringUtils.isNullOrEmpty(query))
         {
@@ -1002,19 +1005,19 @@ public class ContactListFragment
             if (callSearchLayout != null)
             {
                 TextView searchContactView
-                    = (TextView) callSearchLayout
-                    .findViewById(R.id.callSearchContact);
+                        = (TextView) callSearchLayout
+                        .findViewById(R.id.callSearchContact);
 
                 searchContactView.setText(query);
                 callSearchLayout.getLayoutParams().height
-                    = searchContactView.getResources()
+                        = searchContactView.getResources()
                         .getDimensionPixelSize(R.dimen.account_list_row_height);
 
                 callSearchLayout.setVisibility(View.VISIBLE);
 
                 final ImageButton callButton
-                    = (ImageButton) callSearchLayout
-                            .findViewById(R.id.contactCallButton);
+                        = (ImageButton) callSearchLayout
+                        .findViewById(R.id.contactCallButton);
                 callButton.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
@@ -1024,10 +1027,10 @@ public class ContactListFragment
                         logger.info("Contactlistfragment callbutton activity "+getActivity().toString() +" query is "+query);
 
                         AndroidCallUtil
-                            .createAndroidCall(
-                                getActivity(),
-                                callButton,
-                                query);
+                                .createAndroidCall(
+                                        getActivity(),
+                                        callButton,
+                                        query);
 
                         logger.info("Contactlistfragment callbutton activity "+getActivity().toString() +" query is "+query);
                     }
@@ -1042,8 +1045,8 @@ public class ContactListFragment
      *
      */
     class SearchViewListener
-        implements SearchView.OnQueryTextListener,
-                   SearchView.OnCloseListener
+            implements SearchView.OnQueryTextListener,
+            SearchView.OnCloseListener
     {
         @Override
         public boolean onClose()
